@@ -5,9 +5,9 @@ public class Prodotto
 	public String nome;
 	public int id;
 	public double prezzo;
-	private boolean bevandaCalda;
-	int quantita;
-	int quantitaAcquistata;
+	public boolean bevandaCalda;
+	public int quantita;
+	public int quantitaAcquistata;
 
 	public Prodotto(String nome, int id, double prezzo, boolean bevandaCalda, int quantita)
 	{
