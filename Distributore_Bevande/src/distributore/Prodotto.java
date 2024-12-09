@@ -9,7 +9,7 @@ public class Prodotto
 	int quantita;
 	int quantitaAcquistata;
 
-	protected Prodotto(String nome, int id, double prezzo, boolean bevandaCalda, int quantita)
+	public Prodotto(String nome, int id, double prezzo, boolean bevandaCalda, int quantita)
 	{
 		this.nome = nome;
 		this.id = id;
