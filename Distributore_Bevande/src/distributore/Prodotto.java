@@ -18,4 +18,30 @@ public class Prodotto
 		this.quantita = quantita;
 	}
 
+	public static boolean bevandaEsaurita(Prodotto bevanda)
+	{
+		if (bevanda.quantita > 0)
+		{
+			System.out.println("Prezzo: " + bevanda.prezzo);
+			return false;
+		} else
+		{
+			System.out.println("Prodotto esaurito.");
+			return true;
+		}
+	}
+
+	public static boolean controlloSubTotale(Prodotto bevanda, double subTotale)
+	{
+		if (subTotale >= bevanda.prezzo)
+			return true;
+		else
+			return false;
+	}
+
+	public static void erogazioneBevanda(Prodotto bevanda)
+	{
+		bevanda.quantita--;
+	}
+
 }
