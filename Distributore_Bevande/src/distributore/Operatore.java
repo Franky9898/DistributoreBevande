@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Operatore
 {
 	//Tutte le cose che può fare l'operatore
-	public static int codiceOperatore = 9999;
+	public static final int codiceOperatore = 9999;
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
 	{

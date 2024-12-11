@@ -18,6 +18,11 @@ public class Prodotto
 		this.quantita = quantita;
 	}
 
+	public int getId()
+	{
+		return id;
+	}
+
 	public static boolean bevandaEsaurita(Prodotto bevanda)
 	{
 		if (bevanda.quantita > 0)
