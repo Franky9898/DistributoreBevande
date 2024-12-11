@@ -2,14 +2,14 @@ package distributore;
 
 public class Prodotto
 {
-	public String nome;
-	public int id;
+	public final String nome;
+	public final int id;
 	public double prezzo;
-	public boolean bevandaCalda;
+	public final boolean bevandaCalda;
 	public int quantita;
 	public int quantitaAcquistata;
 
-	public Prodotto(String nome, int id, double prezzo, boolean bevandaCalda, int quantita)
+	public Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	{
 		this.nome = nome;
 		this.id = id;
