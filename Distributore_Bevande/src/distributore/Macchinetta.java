@@ -129,10 +129,11 @@ public class Macchinetta
 
 			distributore.resto -= (restoDovuto);
 			System.out.println("Il tuo resto: " + restoDovuto);
+			distributore.resto += subTotale;
 		} else
 		{
 			System.out.println("Il tuo resto: " + distributore.resto);
-			distributore.resto = 0;
+			distributore.resto = subTotale;
 		}
 	}
 
