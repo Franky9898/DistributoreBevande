@@ -1,65 +1,67 @@
 package distributore;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main
 {
-	public static void funzioneMacchinetta(Macchinetta distributore)
+	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) //Non abbiamo modo di salvare il restoDovuto ma non ridato.
 	{
-
-		Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore); //CONTROLLARE SELEZIONE ID PRODOTTTO
-		if (prodottoSelezionato == null)
+		boolean loop = true;
+		while (loop)
 		{
-			Operatore.funzioneOperatore(distributore);
-		}
-		boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato);
-		if (disponibilita)
-			System.exit(0);
-		boolean acquistabile = false;
-		double subTotale = 0;
-		do
-		{
-			subTotale = Moneta.inserisciMoneta(distributore.moneteValide);
-			acquistabile = Prodotto.controlloSubTotale(prodottoSelezionato, subTotale);
-		} while (!acquistabile);
-		boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale);
-		if (!restabbile)
-		{
-			//Scanner inputUtente = new Scanner(System.in);
-			System.out.println("Non c'è abbastanza resto. Vuoi continuare a costo maggiorato? Premi 1 per sì");
-			int conferma = 0; //inputUtente.nextInt();
-			//inputUtente.close();
-			if (conferma != 1)
-				System.exit(0);
-		}
-		if (!prodottoSelezionato.getBevandaCalda()) //Bevanda Fredda
-		{
+			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner); //CONTROLLARE SELEZIONE ID PRODOTTTO
+			if (prodottoSelezionato == null)
+			{
+				Operatore.funzioneOperatore(distributore, scanner);
+				loop = false;
+			}
+			boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato);
+			if (disponibilita)
+				break;
+			boolean acquistabile = false;
+			double subTotale = 0;
+			do
+			{
+				subTotale = Moneta.inserisciMoneta(distributore.moneteValide, subTotale, scanner);
+				acquistabile = Prodotto.controlloSubTotale(prodottoSelezionato, subTotale);
+			} while (!acquistabile);
+			boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale);
+			if (!restabbile)
+			{
+				System.out.println("Non c'è abbastanza resto. Vuoi continuare a costo maggiorato? Premi 1 per sì");
+				int conferma = 0;
+				conferma = scanner.nextInt();
+				if (conferma != 1)
+					continue;
+			}
+			if (!prodottoSelezionato.getBevandaCalda()) //Bevanda Fredda
+			{
+				Prodotto.erogazioneBevanda(prodottoSelezionato);
+				System.out.println("Ritirare la bevanda");
+				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
+				continue;
+			}
+			Macchinetta.controlloBicchieri(distributore);
+			Macchinetta.selezioneZucchero(distributore, scanner);
+			Macchinetta.erogazioneBacchetta(distributore);
 			Prodotto.erogazioneBevanda(prodottoSelezionato);
 			System.out.println("Ritirare la bevanda");
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
-			System.exit(0);
+			continue;
 		}
-		Macchinetta.controlloBicchieri(distributore);
-		Macchinetta.selezioneZucchero(distributore);
-		Macchinetta.erogazioneBacchetta(distributore);
-		Prodotto.erogazioneBevanda(prodottoSelezionato);
-		System.out.println("Ritirare la bevanda");
-		Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
-		System.exit(0);
-
 	}
 	//CREARE INIZIALIZZAZIONE OGGETTI
 
 	public static void main(String[] args)
 	{
-		Moneta dieciCent = new Moneta(0.1);
-		Moneta[] moneteValide = { dieciCent };
-		Prodotto caffe = new Prodotto("Caffe", 1, 0.5, true, 4);
-		Prodotto the = new Prodotto("The caldo", 2, 0.8, true, 5);
-		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
-		listaProdotti.add(the);
-		listaProdotti.add(caffe);
-		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 100, 10, 10, 10);
-		funzioneMacchinetta(distributore);
+		Scanner scanner = new Scanner(System.in);
+		Moneta[] moneteValide = Moneta.inizializzazioneMoneteValide();
+		ArrayList<Prodotto> listaProdotti = Macchinetta.inizializzazioneProdotti();
+
+		//Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri)
+		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 0, 10, 10, 10);
+		funzioneMacchinetta(distributore, scanner);
+		scanner.close();
 	}
 }

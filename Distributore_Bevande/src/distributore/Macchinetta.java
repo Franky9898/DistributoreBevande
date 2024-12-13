@@ -36,40 +36,26 @@ public class Macchinetta
 		return prodotti;
 	}
 
-	public static Prodotto selezioneIdProdotto(Macchinetta distributore) //AAAAAAAAAAAHHHHHHHHH
+	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) //Return null se codeiceOperatore
 	{
-		int inputId = -1;
-		do
+		int id = -1;
+		while (id < 10) //Gli id devono iniziare da 10
 		{
-			Scanner s = new Scanner(System.in);
-			System.out.println("Inserisci l'ID del prodotto:");
-
-			if (!s.hasNextInt())
-			{
-				System.out.println("Errore: Inserisci un ID numerico valido.");
-				s.next();
-				continue;
-			}
-
-			inputId = s.nextInt();
-
-			Prodotto prodottoSelezionato = controlloId(distributore, inputId);
-
+			System.out.println("Inserisci id prodotto: ");
+			id = scanner.nextInt();
+		}
+		if (id != Operatore.codiceOperatore)
+		{
+			Prodotto prodottoSelezionato = controlloId(distributore, id);
 			if (prodottoSelezionato != null)
-			{
-				s.close();
 				return prodottoSelezionato;
-			} else if (inputId == Operatore.codiceOperatore)
+			else
 			{
-				System.out.println("Benvenuto operatore.");
-				s.close();
-				return null;
-			} else
-			{
-				System.out.println("Errore: ID prodotto non valido.");
+				System.out.println("Id non valido");
+				System.exit(0);
 			}
-			s.close();
-		} while (inputId == -1);
+		}
+		return null;
 	}
 
 	public static Prodotto controlloId(Macchinetta distributore, int inputId)
@@ -92,9 +78,8 @@ public class Macchinetta
 			return false;
 	}
 
-	public static void selezioneZucchero(Macchinetta distributore)
+	public static void selezioneZucchero(Macchinetta distributore, Scanner scanner) //Scanner input)
 	{
-		Scanner input = new Scanner(System.in);
 		boolean conferma = true;
 		int zucchero = -1;
 		while (conferma)
@@ -106,16 +91,15 @@ public class Macchinetta
 			} else if ((zucchero <= -1 || zucchero >= 6) && zucchero != 10)
 			{
 				System.out.println("Selezionare quantità zucchero tra 0 e 5. Premere 10 per annullare:  ");
-				zucchero = input.nextInt();
+				zucchero = scanner.nextInt();
 			} else
 			{
 				System.out.println("Zucchero non sufficiente, selezionare quantità minore o premere 10 per annullare.");
-				zucchero = input.nextInt();
+				zucchero = scanner.nextInt();
 				if (zucchero == 10)
 					System.exit(0);
 			}
 		}
-		input.close();
 	}
 
 	public static void controlloBicchieri(Macchinetta distributore)
@@ -154,11 +138,14 @@ public class Macchinetta
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
-		Prodotto caffe = new Prodotto("Caffe", 1, 0.5, true, 4);
-		Prodotto the = new Prodotto("The caldo", 2, 0.8, true, 5);
+		//Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
+		Prodotto caffe = new Prodotto("Caffe", 11, 0.5, true, 4);
+		Prodotto the = new Prodotto("The caldo", 12, 0.8, true, 5);
+		Prodotto acquaNaturale = new Prodotto("Acqua Ferragni", 13, 5.95, false, 6);
 		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
 		listaProdotti.add(the);
 		listaProdotti.add(caffe);
+		listaProdotti.add(acquaNaturale);
 		return listaProdotti;
 	}
 

@@ -84,9 +84,8 @@ public class Operatore
 		System.out.println("Totale incassato: " + incasso);
 	}
 
-	public static void funzioneOperatore(Macchinetta distributore)
+	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
 	{
-		Scanner inputOp = new Scanner(System.in);
 		int continua = 1;
 		int sceltaOperatore = -1;
 		while (continua == 1)
@@ -95,26 +94,26 @@ public class Operatore
 			{
 			case 1: //Aggiunta prodotto
 				System.out.println("Inserisci nome prodotto: ");
-				String nome = inputOp.next();
+				String nome = scanner.next();
 				int id = -1;
 				while (id < 0)
 				{
 					System.out.println("Inserisci id prodotto: ");
-					id = inputOp.nextInt();
+					id = scanner.nextInt();
 				}
 				double prezzo = -1;
 				while (prezzo < 0)
 				{
 					System.out.println("Inserisci prezzo prodotto: ");
-					prezzo = inputOp.nextDouble();
+					prezzo = scanner.nextDouble();
 				}
 				System.out.println("Definisci se il prodotto è una bevanda calda: ");
-				boolean bevandaCalda = inputOp.nextBoolean();
+				boolean bevandaCalda = scanner.nextBoolean();
 				int quantita = -1;
 				while (quantita < 0)
 				{
 					System.out.println("Inserisci quantità iniziale prodotto: ");
-					quantita = inputOp.nextInt();
+					quantita = scanner.nextInt();
 				}
 				Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
@@ -122,7 +121,7 @@ public class Operatore
 				break;
 			case 2: //Rimozione prodotto
 				System.out.println("Inserisci id prodotto da rimuovere: ");
-				id = inputOp.nextInt();
+				id = scanner.nextInt();
 				int j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
@@ -146,7 +145,7 @@ public class Operatore
 				break;
 			case 3: //Aggiungere quantità prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi aggiungere quantita: ");
-				id = inputOp.nextInt();
+				id = scanner.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
@@ -160,7 +159,7 @@ public class Operatore
 				{
 					Prodotto prodottoDaRimpolpare = distributore.prodotti.get(j);
 					System.out.println("Inserisci la quantità da aggiungere: ");
-					quantita = inputOp.nextInt();
+					quantita = scanner.nextInt();
 					aggiungereQuantitaProdotto(prodottoDaRimpolpare, quantita);
 				} else
 				{
@@ -170,7 +169,7 @@ public class Operatore
 				break;
 			case 4: //Rimozione prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi rimuovere quantita: ");
-				id = inputOp.nextInt();
+				id = scanner.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
@@ -184,7 +183,7 @@ public class Operatore
 				{
 					Prodotto prodottoDaDecimare = distributore.prodotti.get(j);
 					System.out.println("Inserisci la quantità da rimuovere: ");
-					quantita = inputOp.nextInt();
+					quantita = scanner.nextInt();
 					rimuovereQuantitaProdotto(prodottoDaDecimare, quantita);
 				} else
 				{
@@ -194,7 +193,7 @@ public class Operatore
 				break;
 			case 5: //Cambiare prezzo prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi cambiare prezzo: ");
-				id = inputOp.nextInt();
+				id = scanner.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
@@ -208,7 +207,7 @@ public class Operatore
 				{
 					Prodotto prodottoPrezzare = distributore.prodotti.get(j);
 					System.out.println("Inserisci nuovo prezzo: ");
-					prezzo = inputOp.nextDouble();
+					prezzo = scanner.nextDouble();
 					cambiarePrezzoProdotto(prodottoPrezzare, prezzo);
 				} else
 				{
@@ -227,13 +226,12 @@ public class Operatore
 			default:
 				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per rimuovere la quantità di un prodotto,"
 						+ "\n5 per cambiare il prezzo di un prodotto, 6 per il totale incassato, 7 per vedere quali prodotti sono stati acquistati. ");
-				sceltaOperatore = inputOp.nextInt();
+				sceltaOperatore = scanner.nextInt();
 				continue;
 			}
 			System.out.println("Vuoi fare altro? Premi 1 per sì.");
-			continua = inputOp.nextInt();
+			continua = scanner.nextInt();
 		}
-		inputOp.close();
 	}
 
 }

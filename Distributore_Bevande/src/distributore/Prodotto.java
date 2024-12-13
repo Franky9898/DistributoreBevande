@@ -11,8 +11,8 @@ public class Prodotto
 
 	public Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	{
-		if (id < 1)
-			throw new IllegalArgumentException("L'id prodotto non può essere non positivo.");
+		if (id < 10)
+			throw new IllegalArgumentException("L'id prodotto deve iniziare da 10");
 		if (quantita < 1)
 			throw new IllegalArgumentException("La quantita iniziale del prodotto non può essere non positiva.");
 		if (prezzo < 0)
@@ -93,6 +93,7 @@ public class Prodotto
 	public static void erogazioneBevanda(Prodotto bevanda)
 	{
 		bevanda.quantita--;
+		bevanda.quantitaAcquistata++;
 	}
 
 }

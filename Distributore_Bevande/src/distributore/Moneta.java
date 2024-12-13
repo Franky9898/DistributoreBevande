@@ -11,23 +11,21 @@ public class Moneta
 		this.valore = valore;
 	}
 
-	public static double inserisciMoneta(Moneta[] moneteValide)
+	public static double inserisciMoneta(Moneta[] moneteValide, double subTotale, Scanner scanner)
 	{
-		Scanner input = new Scanner(System.in);
-		double subTotale = 0;
 		int c = 0;
-		double valoreMoneta = -1;
+		double valoreMoneta = -1.0;
 		while (valoreMoneta < 0.1 || valoreMoneta > 2.0)
 		{
 			System.out.println("Inserisci moneta: ");
-			valoreMoneta = input.nextDouble();
+			valoreMoneta = scanner.nextDouble();
 		}
-		input.close();
 		for (int i = 0; i < moneteValide.length; i++)
 		{
 			if (valoreMoneta == moneteValide[i].valore)
 			{
 				subTotale += valoreMoneta;
+				System.out.println("Subtotale: " + subTotale);
 				break;
 			} else
 				c++;
