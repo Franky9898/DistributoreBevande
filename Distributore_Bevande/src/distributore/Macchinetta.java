@@ -136,6 +136,8 @@ public class Macchinetta
 			distributore.resto = subTotale;
 		}
 	}
+	
+	
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
