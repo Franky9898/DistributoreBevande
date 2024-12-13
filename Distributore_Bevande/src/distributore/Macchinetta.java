@@ -136,11 +136,7 @@ public class Macchinetta
 		}
 	}
 	
-	public static void aggiornamentoResto(Macchinetta distributore, Prodotto bevanda, double subTotale, boolean restabbile) {
-		if (restabile) {
-			
-		}
-	}
+	
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
