@@ -152,4 +152,14 @@ public class Macchinetta
 		}
 	}
 
+	public static ArrayList<Prodotto> inizializzazioneProdotti()
+	{
+		Prodotto caffe = new Prodotto("Caffe", 1, 0.5, true, 4);
+		Prodotto the = new Prodotto("The caldo", 2, 0.8, true, 5);
+		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
+		listaProdotti.add(the);
+		listaProdotti.add(caffe);
+		return listaProdotti;
+	}
+
 }
