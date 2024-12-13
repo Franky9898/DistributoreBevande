@@ -18,7 +18,7 @@ public class Operatore
 			else
 				break; //Non è unico si interrompe il ciclo
 		}
-		if (checkCounter == prodotti.size()) //Si aggiunge dato che si è controllato tutto il registro e non si è trovata una corrispondenza
+		if (checkCounter == prodotti.size())
 		{
 			prodotti.add(prodottoDaAggiungere);
 			System.out.println("Prodotto aggiunto con successo.");
@@ -118,6 +118,7 @@ public class Operatore
 				}
 				Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
+				sceltaOperatore = -1;
 				break;
 			case 2: //Rimozione prodotto
 				System.out.println("Inserisci id prodotto da rimuovere: ");
@@ -141,6 +142,7 @@ public class Operatore
 				{
 					System.out.println("Id non trovato");
 				}
+				sceltaOperatore = -1;
 				break;
 			case 3: //Aggiungere quantità prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi aggiungere quantita: ");
@@ -164,7 +166,7 @@ public class Operatore
 				{
 					System.out.println("Id non trovato");
 				}
-
+				sceltaOperatore = -1;
 				break;
 			case 4: //Rimozione prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi rimuovere quantita: ");
@@ -188,6 +190,7 @@ public class Operatore
 				{
 					System.out.println("Id non trovato");
 				}
+				sceltaOperatore = -1;
 				break;
 			case 5: //Cambiare prezzo prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi cambiare prezzo: ");
@@ -211,12 +214,15 @@ public class Operatore
 				{
 					System.out.println("Id non trovato");
 				}
+				sceltaOperatore = -1;
 				break;
 			case 6: //Visualizza totale incassato
 				totaleIncassato(distributore.prodotti);
+				sceltaOperatore = -1;
 				break;
 			case 7: //Visualizza lista prodotti acquistati
 				prodottiAcquistati(distributore.prodotti);
+				sceltaOperatore = -1;
 				break;
 			default:
 				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per rimuovere la quantità di un prodotto,"
