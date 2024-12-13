@@ -10,7 +10,20 @@ public class Operatore
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
 	{
-		prodotti.add(prodottoDaAggiungere);
+		int checkCounter = 0;
+		for (int i = 0; i < prodotti.size(); i++)
+		{
+			if (prodottoDaAggiungere.getId() != prodotti.get(i).getId())
+				checkCounter++; //Per il momento è unico, dunque aumento il counter
+			else
+				break; //Non è unico si interrompe il ciclo
+		}
+		if (checkCounter == prodotti.size()) //Si aggiunge dato che si è controllato tutto il registro e non si è trovata una corrispondenza
+		{
+			prodotti.add(prodottoDaAggiungere);
+			System.out.println("Prodotto aggiunto con successo.");
+		} else
+			System.out.println("L'id è già in uso.");
 	}
 
 	private static void rimuovereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaRimuovere)
@@ -21,15 +34,15 @@ public class Operatore
 	private static void aggiungereQuantitaProdotto(Prodotto prodotto, int quantitaDaAggiungere)
 	{
 		if (quantitaDaAggiungere > 0)
-			prodotto.quantita += quantitaDaAggiungere;
+			prodotto.setQuantita(prodotto.getQuantita() + quantitaDaAggiungere);
 		else
 			System.out.println("Errore");
 	}
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, int quantitaDaRimuovere)
 	{
-		if (quantitaDaRimuovere > 0 && prodotto.quantita > quantitaDaRimuovere)
-			prodotto.quantita -= quantitaDaRimuovere;
+		if (quantitaDaRimuovere > 0 && prodotto.getQuantita() > quantitaDaRimuovere)
+			prodotto.setQuantita(prodotto.getQuantita() - quantitaDaRimuovere);
 		else
 			System.out.println("Errore");
 	}
@@ -37,7 +50,7 @@ public class Operatore
 	private static void cambiarePrezzoProdotto(Prodotto prodotto, double nuovoPrezzo)
 	{
 		if (nuovoPrezzo > 0)
-			prodotto.prezzo = nuovoPrezzo;
+			prodotto.setPrezzo(nuovoPrezzo);
 		else
 			System.out.println("Errore");
 	}
@@ -46,7 +59,7 @@ public class Operatore
 	{
 		for (int i = 0; i < lista.size(); i++)
 		{
-			System.out.println("Prodotto: " + lista.get(i).nome + ", acquistato " + lista.get(i).quantitaAcquistata + " volte.");
+			System.out.println("Prodotto: " + lista.get(i).getNome() + ", acquistato " + lista.get(i).getQuantitaAcquistata() + " volte.");
 		}
 	}
 
@@ -55,7 +68,7 @@ public class Operatore
 		ArrayList<Prodotto> acquistati = new ArrayList<Prodotto>();
 		for (int i = 0; i < prodotti.size(); i++)
 		{
-			if (prodotti.get(i).quantitaAcquistata > 0)
+			if (prodotti.get(i).getQuantitaAcquistata() > 0)
 				acquistati.add(prodotti.get(i));
 		}
 		printProdottiAcquistati(acquistati);
@@ -66,7 +79,7 @@ public class Operatore
 		double incasso = 0;
 		for (int i = 0; i < prodotti.size(); i++)
 		{
-			incasso = prodotti.get(i).quantitaAcquistata * prodotti.get(i).prezzo;
+			incasso = prodotti.get(i).getQuantitaAcquistata() * prodotti.get(i).getPrezzo();
 		}
 		System.out.println("Totale incassato: " + incasso);
 	}
@@ -78,32 +91,41 @@ public class Operatore
 		int sceltaOperatore = -1;
 		while (continua == 1)
 		{
-			//while (sceltaOperatore < 1 || sceltaOperatore > 6)
-			//{
-
 			switch (sceltaOperatore)
 			{
-			case 1:
+			case 1: //Aggiunta prodotto
 				System.out.println("Inserisci nome prodotto: ");
 				String nome = inputOp.next();
-				System.out.println("Inserisci id prodotto: ");
-				int id = inputOp.nextInt();
-				System.out.println("Inserisci prezzo prodotto: ");
-				double prezzo = inputOp.nextDouble();
+				int id = -1;
+				while (id < 0)
+				{
+					System.out.println("Inserisci id prodotto: ");
+					id = inputOp.nextInt();
+				}
+				double prezzo = -1;
+				while (prezzo < 0)
+				{
+					System.out.println("Inserisci prezzo prodotto: ");
+					prezzo = inputOp.nextDouble();
+				}
 				System.out.println("Definisci se il prodotto è una bevanda calda: ");
 				boolean bevandaCalda = inputOp.nextBoolean();
-				System.out.println("Inserisci quantità iniziale prodotto: ");
-				int quantita = inputOp.nextInt();
+				int quantita = -1;
+				while (quantita < 0)
+				{
+					System.out.println("Inserisci quantità iniziale prodotto: ");
+					quantita = inputOp.nextInt();
+				}
 				Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
 				break;
-			case 2:
+			case 2: //Rimozione prodotto
 				System.out.println("Inserisci id prodotto da rimuovere: ");
 				id = inputOp.nextInt();
 				int j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
-					if (distributore.prodotti.get(i).id == id)
+					if (distributore.prodotti.get(i).getId() == id)
 					{
 						j = i;
 						break;
@@ -120,13 +142,13 @@ public class Operatore
 					System.out.println("Id non trovato");
 				}
 				break;
-			case 3:
+			case 3: //Aggiungere quantità prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi aggiungere quantita: ");
 				id = inputOp.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
-					if (distributore.prodotti.get(i).id == id)
+					if (distributore.prodotti.get(i).getId() == id)
 					{
 						j = i;
 						break;
@@ -144,13 +166,13 @@ public class Operatore
 				}
 
 				break;
-			case 4:
-				System.out.println("Inserisci id prodotto di cui vuoi aggiungere quantita: ");
+			case 4: //Rimozione prodotto
+				System.out.println("Inserisci id prodotto di cui vuoi rimuovere quantita: ");
 				id = inputOp.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
-					if (distributore.prodotti.get(i).id == id)
+					if (distributore.prodotti.get(i).getId() == id)
 					{
 						j = i;
 						break;
@@ -159,7 +181,7 @@ public class Operatore
 				if (j != -1)
 				{
 					Prodotto prodottoDaDecimare = distributore.prodotti.get(j);
-					System.out.println("Inserisci la quantità da aggiungere: ");
+					System.out.println("Inserisci la quantità da rimuovere: ");
 					quantita = inputOp.nextInt();
 					rimuovereQuantitaProdotto(prodottoDaDecimare, quantita);
 				} else
@@ -167,13 +189,13 @@ public class Operatore
 					System.out.println("Id non trovato");
 				}
 				break;
-			case 5:
+			case 5: //Cambiare prezzo prodotto
 				System.out.println("Inserisci id prodotto di cui vuoi cambiare prezzo: ");
 				id = inputOp.nextInt();
 				j = -1;
 				for (int i = 0; i < distributore.prodotti.size(); i++)
 				{
-					if (distributore.prodotti.get(i).id == id)
+					if (distributore.prodotti.get(i).getId() == id)
 					{
 						j = i;
 						break;
@@ -190,20 +212,18 @@ public class Operatore
 					System.out.println("Id non trovato");
 				}
 				break;
-			case 6:
+			case 6: //Visualizza totale incassato
 				totaleIncassato(distributore.prodotti);
 				break;
-			case 7:
+			case 7: //Visualizza lista prodotti acquistati
 				prodottiAcquistati(distributore.prodotti);
 				break;
 			default:
-				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per aggiungere la quantità di un prodotto,"
+				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per rimuovere la quantità di un prodotto,"
 						+ "\n5 per cambiare il prezzo di un prodotto, 6 per il totale incassato, 7 per vedere quali prodotti sono stati acquistati. ");
 				sceltaOperatore = inputOp.nextInt();
 				continue;
 			}
-
-			//}
 			System.out.println("Vuoi fare altro? Premi 1 per sì.");
 			continua = inputOp.nextInt();
 		}

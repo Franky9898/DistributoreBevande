@@ -15,6 +15,14 @@ public class Macchinetta
 	//Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	public Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri) //Costruttore macchinetta
 	{
+		if (resto < 0)
+			throw new IllegalArgumentException("Il resto non può essere negativo.");
+		if (zucchero < 0)
+			throw new IllegalArgumentException("Lo zucchero iniziale non può essere negativo.");
+		if (bacchette < 0)
+			throw new IllegalArgumentException("Il numero delle bacchette iniziali non può essere negativo.");
+		if (bicchieri < 0)
+			throw new IllegalArgumentException("Il numero dei bicchieri iniziali non può essere negativo.");
 		this.resto = resto;
 		this.zucchero = zucchero;
 		this.bacchette = bacchette;
@@ -28,11 +36,12 @@ public class Macchinetta
 		return prodotti;
 	}
 
-	public static Prodotto selezioneIdProdotto(Macchinetta distributore)
+	public static Prodotto selezioneIdProdotto(Macchinetta distributore) //AAAAAAAAAAAHHHHHHHHH
 	{
-		Scanner s = new Scanner(System.in);
-		while (true)
+		int inputId = -1;
+		do
 		{
+			Scanner s = new Scanner(System.in);
 			System.out.println("Inserisci l'ID del prodotto:");
 
 			if (!s.hasNextInt())
@@ -42,23 +51,25 @@ public class Macchinetta
 				continue;
 			}
 
-			int inputId = s.nextInt();
+			inputId = s.nextInt();
 
 			Prodotto prodottoSelezionato = controlloId(distributore, inputId);
 
 			if (prodottoSelezionato != null)
 			{
+				s.close();
 				return prodottoSelezionato;
 			} else if (inputId == Operatore.codiceOperatore)
 			{
 				System.out.println("Benvenuto operatore.");
+				s.close();
 				return null;
 			} else
 			{
 				System.out.println("Errore: ID prodotto non valido.");
 			}
 			s.close();
-		}
+		} while (inputId == -1);
 	}
 
 	public static Prodotto controlloId(Macchinetta distributore, int inputId)
@@ -75,7 +86,7 @@ public class Macchinetta
 
 	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
 	{
-		if (distributore.resto > (subTotale - bevanda.prezzo))
+		if (distributore.resto > (subTotale - bevanda.getPrezzo()))
 			return true;
 		else
 			return false;
@@ -128,7 +139,7 @@ public class Macchinetta
 
 	public static void erogazioneResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
 	{
-		double restoDovuto = subTotale - bevanda.prezzo;
+		double restoDovuto = subTotale - bevanda.getPrezzo();
 		if (distributore.resto >= restoDovuto)
 		{
 
