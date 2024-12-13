@@ -132,7 +132,13 @@ public class Macchinetta
 		} else
 		{
 			System.out.println("Il tuo resto: " + distributore.resto);
-			distributore.resto = 0;
+			distributore.resto = subTotale;
+		}
+	}
+	
+	public static void aggiornamentoResto(Macchinetta distributore, Prodotto bevanda, double subTotale, boolean restabbile) {
+		if (restabile) {
+			
 		}
 	}
 
