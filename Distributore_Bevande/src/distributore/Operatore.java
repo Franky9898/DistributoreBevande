@@ -74,14 +74,14 @@ public class Operatore
 		printProdottiAcquistati(acquistati);
 	}
 
-	private static void totaleIncassato(ArrayList<Prodotto> prodotti)
+	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile)
 	{
-		double incasso = 0;
-		for (int i = 0; i < prodotti.size(); i++)
-		{
-			incasso = prodotti.get(i).getQuantitaAcquistata() * prodotti.get(i).getPrezzo();
-		}
-		System.out.println("Totale incassato: " + incasso);
+		if (restabbile == true)
+			distributore.incasso += prodottoSelezionato.getPrezzo(); //Comm
+		else
+			distributore.incasso += subTotale - distributore.resto;
+
+		return distributore.incasso;
 	}
 
 	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
@@ -216,16 +216,19 @@ public class Operatore
 				sceltaOperatore = -1;
 				break;
 			case 6: //Visualizza totale incassato
-				totaleIncassato(distributore.prodotti);
+				System.out.println("Incasso: " + distributore.getIncasso());
 				sceltaOperatore = -1;
 				break;
 			case 7: //Visualizza lista prodotti acquistati
 				prodottiAcquistati(distributore.prodotti);
 				sceltaOperatore = -1;
 				break;
+			case 8:
+				System.exit(0);
+				break;
 			default:
 				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per rimuovere la quantità di un prodotto,"
-						+ "\n5 per cambiare il prezzo di un prodotto, 6 per il totale incassato, 7 per vedere quali prodotti sono stati acquistati. ");
+						+ "\n5 per cambiare il prezzo di un prodotto, 6 per il totale incassato, 7 per vedere quali prodotti sono stati acquistati, 8 per resettare la macchinetta");
 				sceltaOperatore = scanner.nextInt();
 				continue;
 			}

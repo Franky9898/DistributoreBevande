@@ -7,18 +7,17 @@ public class Main
 {
 	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) //Non abbiamo modo di salvare il restoDovuto ma non ridato.
 	{
-		boolean loop = true;
-		while (loop)
+		while (true)
 		{
-			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner); //CONTROLLARE SELEZIONE ID PRODOTTTO
+			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner);
 			if (prodottoSelezionato == null)
 			{
 				Operatore.funzioneOperatore(distributore, scanner);
-				loop = false;
+				continue;
 			}
 			boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato);
 			if (disponibilita)
-				break;
+				continue;
 			boolean acquistabile = false;
 			double subTotale = 0;
 			do
@@ -39,6 +38,7 @@ public class Main
 			{
 				Prodotto.erogazioneBevanda(prodottoSelezionato);
 				System.out.println("Ritirare la bevanda");
+				Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile);
 				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
 				continue;
 			}
@@ -47,11 +47,11 @@ public class Main
 			Macchinetta.erogazioneBacchetta(distributore);
 			Prodotto.erogazioneBevanda(prodottoSelezionato);
 			System.out.println("Ritirare la bevanda");
+			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile);
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
 			continue;
 		}
 	}
-	//CREARE INIZIALIZZAZIONE OGGETTI
 
 	public static void main(String[] args)
 	{
@@ -60,7 +60,7 @@ public class Main
 		ArrayList<Prodotto> listaProdotti = Macchinetta.inizializzazioneProdotti();
 
 		//Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri)
-		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 0, 10, 10, 10);
+		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 0.04, 10, 10, 10);
 		funzioneMacchinetta(distributore, scanner);
 		scanner.close();
 	}

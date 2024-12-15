@@ -9,6 +9,7 @@ public class Macchinetta
 	public int zucchero;
 	public int bacchette;
 	public int bicchieri;
+	public double incasso;
 	public ArrayList<Prodotto> prodotti;
 	public final Moneta[] moneteValide;
 
@@ -29,6 +30,7 @@ public class Macchinetta
 		this.bicchieri = bicchieri;
 		this.prodotti = prodotti;
 		this.moneteValide = moneteValide;
+		this.incasso = 0;
 	}
 
 	public ArrayList<Prodotto> getProdotti()
@@ -36,23 +38,33 @@ public class Macchinetta
 		return prodotti;
 	}
 
-	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) //Return null se codeiceOperatore
+	public double getIncasso()
+	{
+		return incasso;
+	}
+
+	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) //Return null se codiceOperatore
 	{
 		int id = -1;
 		while (id < 10) //Gli id devono iniziare da 10
 		{
 			System.out.println("Inserisci id prodotto: ");
 			id = scanner.nextInt();
-		}
-		if (id != Operatore.codiceOperatore)
-		{
-			Prodotto prodottoSelezionato = controlloId(distributore, id);
-			if (prodottoSelezionato != null)
-				return prodottoSelezionato;
-			else
+			if (id != Operatore.codiceOperatore)
 			{
-				System.out.println("Id non valido");
-				System.exit(0);
+				Prodotto prodottoSelezionato = controlloId(distributore, id);
+				if (prodottoSelezionato != null && prodottoSelezionato.getQuantita() > 0)
+					return prodottoSelezionato;
+				else if (prodottoSelezionato.getQuantita() == 0)
+				{
+					System.out.println("Prodotto non disponibile");
+					id = -1;
+					continue;
+				} else
+				{
+					System.out.println("Id non valido");
+					continue;
+				}
 			}
 		}
 		return null;
@@ -136,8 +148,6 @@ public class Macchinetta
 			distributore.resto = subTotale;
 		}
 	}
-	
-	
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
