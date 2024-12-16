@@ -44,28 +44,31 @@ public class Macchinetta
 		return incasso;
 	}
 
-	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) // Return null se codiceOperatore
-	{
-		int id = -1;
-		while (id == -1)
-		{
-			System.out.println("Inserisci id prodotto: ");
-			id = scanner.nextInt();
-			if (id != Operatore.codiceOperatore)
-			{
-				for (Prodotto p : distributore.prodotti)
-				{
-					if (id == p.getId())
-						return p;
-				}
-				System.out.println("Id non valido");
-				id = -1;
-				continue;
-			} else
-				return null;
-		}
-		return null;
+	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) {
+	    while (true) {
+	        System.out.print("Inserisci l'ID del prodotto: ");
+	        int id = scanner.nextInt();
+	        //scanner.nextLine(); // Svuota il buffer
+
+	        
+	        if (id == Operatore.codiceOperatore) {
+	            System.out.println("Accesso al menu operatore...");
+	            return null;
+	        }
+
+	        
+	        for (Prodotto p : distributore.prodotti) {
+	            if (id == p.getId()) {
+	                System.out.println("Hai selezionato: " + p.getNome());
+	                return p;
+	            }
+	        }
+
+	  
+	        System.out.println("ID non valido. Riprova.");
+	    }
 	}
+
 
 	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
 	{
