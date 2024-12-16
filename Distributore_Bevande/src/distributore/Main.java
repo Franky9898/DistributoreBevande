@@ -9,7 +9,7 @@ public class Main
 	{
 		while (true)
 		{
-			distributore.stampaProdotti(distributore);
+			Macchinetta.stampaProdotti(distributore);
 			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner); 
 			if (prodottoSelezionato == null) //Il null porta dall'operatore
 			{
@@ -43,13 +43,19 @@ public class Main
 				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
 				continue;
 			}
-			Macchinetta.controlloBicchieri(distributore);
-			Macchinetta.selezioneZucchero(distributore, scanner);
+			boolean controlloBicchieri= Macchinetta.controlloBicchieri(distributore);
+			if (!controlloBicchieri) //Se non ci sono abbastanza bicchieri riparte il loop
+				continue;
+			int zucchero = Macchinetta.selezioneZucchero(distributore, scanner);
+			if(zucchero == 10) //Se l'utente ha premuto "annulla" riparte il loop
+				continue;
 			Macchinetta.erogazioneBacchetta(distributore);
 			Prodotto.erogazioneBevanda(prodottoSelezionato);
 			System.out.println("Ritirare la bevanda");
 			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile);
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
+			Macchinetta.aggiornamentoBicchieri(distributore);
+			Macchinetta.aggiornamentoZucchero(distributore, zucchero);
 			continue;
 		}
 	}
@@ -61,7 +67,7 @@ public class Main
 		ArrayList<Prodotto> listaProdotti = Macchinetta.inizializzazioneProdotti();
 
 		//Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri)
-		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 0.04, 10, 10, 10);
+		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 5, 10, 10, 10);
 		funzioneMacchinetta(distributore, scanner);
 		scanner.close();
 	}
