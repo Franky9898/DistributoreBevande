@@ -13,8 +13,9 @@ public class Macchinetta
 	public ArrayList<Prodotto> prodotti;
 	public final Moneta[] moneteValide;
 
-	//Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
-	public Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri) //Costruttore macchinetta
+	// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
+	// quantita)
+	public Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri) // Costruttore macchinetta
 	{
 		if (resto < 0)
 			throw new IllegalArgumentException("Il resto non può essere negativo.");
@@ -43,41 +44,25 @@ public class Macchinetta
 		return incasso;
 	}
 
-	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) //Return null se codiceOperatore
+	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) // Return null se codiceOperatore
 	{
 		int id = -1;
-		while (id < 10) //Gli id devono iniziare da 10
+		while (id == -1)
 		{
 			System.out.println("Inserisci id prodotto: ");
 			id = scanner.nextInt();
 			if (id != Operatore.codiceOperatore)
 			{
-				Prodotto prodottoSelezionato = controlloId(distributore, id);
-				if (prodottoSelezionato != null && prodottoSelezionato.getQuantita() > 0)
-					return prodottoSelezionato;
-				else if (prodottoSelezionato.getQuantita() == 0)
+				for (Prodotto p : distributore.prodotti)
 				{
-					System.out.println("Prodotto non disponibile");
-					id = -1;
-					continue;
-				} else
-				{
-					System.out.println("Id non valido");
-					continue;
+					if (id == p.getId())
+						return p;
 				}
-			}
-		}
-		return null;
-	}
-
-	public static Prodotto controlloId(Macchinetta distributore, int inputId)
-	{
-		for (Prodotto prodotto : distributore.prodotti)
-		{
-			if (prodotto.getId() == inputId)
-			{
-				return prodotto;
-			}
+				System.out.println("Id non valido");
+				id = -1;
+				continue;
+			} else
+				return null;
 		}
 		return null;
 	}
@@ -90,7 +75,7 @@ public class Macchinetta
 			return false;
 	}
 
-	public static void selezioneZucchero(Macchinetta distributore, Scanner scanner) //Scanner input)
+	public static void selezioneZucchero(Macchinetta distributore, Scanner scanner) // Scanner input)
 	{
 		boolean conferma = true;
 		int zucchero = -1;
@@ -151,7 +136,8 @@ public class Macchinetta
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
-		//Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
+		// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
+		// quantita)
 		Prodotto caffe = new Prodotto("Caffe", 11, 0.5, true, 4);
 		Prodotto the = new Prodotto("The caldo", 12, 0.8, true, 5);
 		Prodotto acquaNaturale = new Prodotto("Acqua Ferragni", 13, 5.95, false, 6);
