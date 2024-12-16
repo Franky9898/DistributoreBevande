@@ -9,6 +9,8 @@ public class Prodotto
 	private int quantita;
 	private int quantitaAcquistata;
 
+	// Costruttore
+	
 	public Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	{
 		if (id < 10)
@@ -69,6 +71,8 @@ public class Prodotto
 		this.quantitaAcquistata = nuovaQuantitaAcquistata;
 	}
 
+	//Metodo che restituisce un boolean se la bevanda è presente o meno
+	
 	public static boolean bevandaEsaurita(Prodotto bevanda)
 	{
 		if (bevanda.quantita > 0)
@@ -90,6 +94,8 @@ public class Prodotto
 			return false;
 	}
 
+	// Aggiornamento sulle quantita
+	
 	public static void erogazioneBevanda(Prodotto bevanda)
 	{
 		bevanda.quantita--;

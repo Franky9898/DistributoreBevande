@@ -7,6 +7,8 @@ public class Operatore
 {
 	//Tutte le cose che può fare l'operatore
 	public static final int codiceOperatore = 9999;
+	
+	// Metodo che permette all'operatore di aggiunfere un prodotto
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
 	{
@@ -25,11 +27,15 @@ public class Operatore
 		} else
 			System.out.println("L'id è già in uso.");
 	}
+	
+	// Metodo per rimuovere un prodotto
 
 	private static void rimuovereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaRimuovere)
 	{
 		prodotti.remove(prodottoDaRimuovere);
 	}
+	
+	// Metodo per aggiungere la quantità
 
 	private static void aggiungereQuantitaProdotto(Prodotto prodotto, int quantitaDaAggiungere)
 	{
@@ -38,6 +44,8 @@ public class Operatore
 		else
 			System.out.println("Errore");
 	}
+	
+	// Metodo per ridurre la quantità
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, int quantitaDaRimuovere)
 	{
@@ -55,13 +63,17 @@ public class Operatore
 			System.out.println("Errore");
 	}
 
-	private static void printProdottiAcquistati(ArrayList<Prodotto> lista) //Print personalizzata per evidenziare la quantità acquistata di un prodotto
+	// Metodo print personalizzata per evidenziare la quantità acquistata di un prodotto
+	
+	private static void printProdottiAcquistati(ArrayList<Prodotto> lista) 
 	{
 		for (int i = 0; i < lista.size(); i++)
 		{
 			System.out.println("Prodotto: " + lista.get(i).getNome() + ", acquistato " + lista.get(i).getQuantitaAcquistata() + " volte.");
 		}
 	}
+	
+	// Metodo che aggiunge in un array i prodotti acquistati
 
 	private static void prodottiAcquistati(ArrayList<Prodotto> prodotti)
 	{
@@ -73,16 +85,20 @@ public class Operatore
 		}
 		printProdottiAcquistati(acquistati);
 	}
+	
+	// Metodo che ritorna l'incasso del distributore
 
 	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile)
 	{
 		if (restabbile == true)
-			distributore.incasso += prodottoSelezionato.getPrezzo(); //Comm
+			distributore.incasso += prodottoSelezionato.getPrezzo(); 
 		else
 			distributore.incasso += subTotale - distributore.resto;
 
 		return distributore.incasso;
 	}
+	
+	// Metodo con tutte le azioni che può fare l'operatore sulla macchinetta
 
 	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
 	{
@@ -115,6 +131,7 @@ public class Operatore
 					System.out.println("Inserisci quantità iniziale prodotto: ");
 					quantita = scanner.nextInt();
 				}
+				//Istanza dell'oggetto Prodotto da aggiungere
 				Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
 				sceltaOperatore = -1;
