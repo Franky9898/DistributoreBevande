@@ -48,6 +48,7 @@ public class Macchinetta
 	{
 		while (true) // Permette di rimanere nel ciclo fin quando non c'è un return
 		{
+			Macchinetta.stampaProdotti(distributore);
 			System.out.println("Inserisci id prodotto: ");
 			int id = scanner.nextInt();
 			if (id == Operatore.codiceOperatore) // L'id operatore ritorna null

@@ -9,7 +9,6 @@ public class Main
 	{
 		while (true)
 		{
-			Macchinetta.stampaProdotti(distributore);
 			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner); 
 			if (prodottoSelezionato == null) //Il null porta dall'operatore
 			{
