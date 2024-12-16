@@ -46,25 +46,25 @@ public class Macchinetta
 
 	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) // Return null se codiceOperatore
 	{
-		while (true)
+		while (true) //Permette di rimanere nel ciclo fin quando non c'è un return 
 		{
 			System.out.println("Inserisci id prodotto: ");
 			int id = scanner.nextInt();
-			if (id == Operatore.codiceOperatore)
+			if (id == Operatore.codiceOperatore) //L'id operatore ritorna null
 				return null;
 			for (Prodotto p : distributore.prodotti)
 			{
-				if (id == p.getId())
+				if (id == p.getId()) //Se l'id corrisponde a qualcuno nell'array allora ritorna p
 				{
 					System.out.println("Hai selezionato: " + p.getNome());
 					return p;
 				}
 			}
-			System.out.println("Id non valido");
+			System.out.println("Id non valido"); //id non trovato e diverso dall'operatore
 		}
 	}
 
-	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
+	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale) //Controlla se la macchinetta ha abbastanza resto
 	{
 		if (distributore.resto > (subTotale - bevanda.getPrezzo()))
 			return true;
@@ -72,7 +72,7 @@ public class Macchinetta
 			return false;
 	}
 
-	public static void selezioneZucchero(Macchinetta distributore, Scanner scanner) // Scanner input)
+	public static void selezioneZucchero(Macchinetta distributore, Scanner scanner) //Permette di selezionare la quantità dello zucchero
 	{
 		boolean conferma = true;
 		int zucchero = -1;
@@ -80,9 +80,9 @@ public class Macchinetta
 		{
 			if (zucchero > -1 && zucchero < 6 && zucchero <= distributore.zucchero)
 			{
-				distributore.zucchero -= zucchero;
+				distributore.zucchero -= zucchero; //Aggiorna lo zucchero nel distributore
 				conferma = false;
-			} else if ((zucchero <= -1 || zucchero >= 6) && zucchero != 10)
+			} else if ((zucchero <= -1 || zucchero >= 6) && zucchero != 10) //Input non valido
 			{
 				System.out.println("Selezionare quantità zucchero tra 0 e 5. Premere 10 per annullare:  ");
 				zucchero = scanner.nextInt();
@@ -90,13 +90,13 @@ public class Macchinetta
 			{
 				System.out.println("Zucchero non sufficiente, selezionare quantità minore o premere 10 per annullare.");
 				zucchero = scanner.nextInt();
-				if (zucchero == 10)
+				if (zucchero == 10) //Premuto 10, ricomincia
 					System.exit(0);
 			}
 		}
 	}
 
-	public static void controlloBicchieri(Macchinetta distributore)
+	public static void controlloBicchieri(Macchinetta distributore) //Aggiorna numero bicchieri
 	{
 		if (distributore.bicchieri > 0)
 			distributore.bicchieri--;
@@ -107,7 +107,7 @@ public class Macchinetta
 		}
 	}
 
-	public static void erogazioneBacchetta(Macchinetta distributore)
+	public static void erogazioneBacchetta(Macchinetta distributore) //Aggiorna numero bacchette
 	{
 		if (distributore.bacchette > 0)
 			distributore.bacchette--;
@@ -118,20 +118,19 @@ public class Macchinetta
 	public static void erogazioneResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
 	{
 		double restoDovuto = subTotale - bevanda.getPrezzo();
-		if (distributore.resto >= restoDovuto)
+		if (distributore.resto >= restoDovuto) //Aggiorna resto distributore
 		{
-
 			distributore.resto -= (restoDovuto);
 			System.out.println("Il tuo resto: " + restoDovuto);
 			distributore.resto += subTotale;
-		} else
+		} else //Dà tutto il resto e per il prossimo utilizzo ottiene l'attuale subtotale
 		{
 			System.out.println("Il tuo resto: " + distributore.resto);
 			distributore.resto = subTotale;
 		}
 	}
 
-	public void stampaProdotti(Macchinetta distributore)
+	public void stampaProdotti(Macchinetta distributore) //Stampa personalizzata di ID, nome e prezzo
 	{
 		for (Prodotto p : distributore.prodotti)
 		{

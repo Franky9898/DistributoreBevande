@@ -5,19 +5,19 @@ import java.util.Scanner;
 
 public class Main
 {
-	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) //Non abbiamo modo di salvare il restoDovuto ma non ridato.
+	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) //Funzione principale, contiene le scelte dei prodotti e le azioni operatore
 	{
 		while (true)
 		{
 			distributore.stampaProdotti(distributore);
-			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner);
-			if (prodottoSelezionato == null)
+			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner); 
+			if (prodottoSelezionato == null) //Il null porta dall'operatore
 			{
 				Operatore.funzioneOperatore(distributore, scanner);
 				continue;
 			}
 			boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato);
-			if (disponibilita)
+			if (disponibilita) //Il prodotto è esaurito, quindi si ricomincia dall'inizio
 				continue;
 			boolean acquistabile = false;
 			double subTotale = 0;
@@ -26,7 +26,7 @@ public class Main
 				subTotale = Moneta.inserisciMoneta(distributore.moneteValide, subTotale, scanner);
 				acquistabile = Prodotto.controlloSubTotale(prodottoSelezionato, subTotale);
 			} while (!acquistabile);
-			boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale);
+			boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale); 
 			if (!restabbile)
 			{
 				System.out.println("Non c'è abbastanza resto. Vuoi continuare a costo maggiorato? Premi 1 per sì");
@@ -55,7 +55,7 @@ public class Main
 	}
 
 	public static void main(String[] args)
-	{
+	{ 
 		Scanner scanner = new Scanner(System.in);
 		Moneta[] moneteValide = Moneta.inizializzazioneMoneteValide();
 		ArrayList<Prodotto> listaProdotti = Macchinetta.inizializzazioneProdotti();

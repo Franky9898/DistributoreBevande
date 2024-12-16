@@ -11,7 +11,7 @@ public class Moneta
 		this.valore = valore;
 	}
 
-	public static double inserisciMoneta(Moneta[] moneteValide, double subTotale, Scanner scanner)
+	public static double inserisciMoneta(Moneta[] moneteValide, double subTotale, Scanner scanner) //Inserisci monete accettate dal distributore
 	{
 		int c = 0;
 		double valoreMoneta = -1.0;
@@ -35,7 +35,7 @@ public class Moneta
 		else
 		{
 			System.out.println("Moneta non valida");
-			return 0;
+			return 0; //Va bene return 0 perché nel main si aggiorna il valore
 		}
 	}
 
