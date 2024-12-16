@@ -9,6 +9,7 @@ public class Main
 	{
 		while (true)
 		{
+			distributore.stampaProdotti(distributore);
 			Prodotto prodottoSelezionato = Macchinetta.selezioneIdProdotto(distributore, scanner);
 			if (prodottoSelezionato == null)
 			{

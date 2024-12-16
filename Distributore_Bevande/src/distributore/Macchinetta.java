@@ -46,25 +46,22 @@ public class Macchinetta
 
 	public static Prodotto selezioneIdProdotto(Macchinetta distributore, Scanner scanner) // Return null se codiceOperatore
 	{
-		int id = -1;
-		while (id == -1)
+		while (true)
 		{
 			System.out.println("Inserisci id prodotto: ");
-			id = scanner.nextInt();
-			if (id != Operatore.codiceOperatore)
-			{
-				for (Prodotto p : distributore.prodotti)
-				{
-					if (id == p.getId())
-						return p;
-				}
-				System.out.println("Id non valido");
-				id = -1;
-				continue;
-			} else
+			int id = scanner.nextInt();
+			if (id == Operatore.codiceOperatore)
 				return null;
+			for (Prodotto p : distributore.prodotti)
+			{
+				if (id == p.getId())
+				{
+					System.out.println("Hai selezionato: " + p.getNome());
+					return p;
+				}
+			}
+			System.out.println("Id non valido");
 		}
-		return null;
 	}
 
 	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale)
@@ -134,13 +131,21 @@ public class Macchinetta
 		}
 	}
 
+	public void stampaProdotti(Macchinetta distributore)
+	{
+		for (Prodotto p : distributore.prodotti)
+		{
+			System.out.println("Id: " + p.getId() + ", prodotto: " + p.getNome() + ", prezzo: " + p.getPrezzo());
+		}
+	}
+
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
 		// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
 		// quantita)
 		Prodotto caffe = new Prodotto("Caffe", 11, 0.5, true, 4);
 		Prodotto the = new Prodotto("The caldo", 12, 0.8, true, 5);
-		Prodotto acquaNaturale = new Prodotto("Acqua Ferragni", 13, 5.95, false, 6);
+		Prodotto acquaNaturale = new Prodotto("Acqua Ferragni", 13, 5.90, false, 6);
 		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
 		listaProdotti.add(the);
 		listaProdotti.add(caffe);
