@@ -67,7 +67,7 @@ public class Macchinetta
 
 	public static boolean controlloResto(Macchinetta distributore, Prodotto bevanda, double subTotale) // Controlla se la macchinetta ha abbastanza resto
 	{
-		if (distributore.resto > (subTotale - bevanda.getPrezzo()))
+		if (distributore.resto >= (subTotale - bevanda.getPrezzo()))
 			return true;
 		else
 			return false;
@@ -148,9 +148,11 @@ public class Macchinetta
 	{
 		for (Prodotto p : distributore.prodotti)
 		{
-			System.out.println("Id: " + p.getId() + ", prodotto: " + p.getNome() + ", prezzo: " + p.getPrezzo());
+			System.out.println(String.format("Id: %d, prodotto: %s, prezzo: %.2f ", p.getId(), p.getNome(), p.getPrezzo()));
 		}
 	}
+	
+	
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{

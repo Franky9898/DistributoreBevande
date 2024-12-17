@@ -55,7 +55,7 @@ public class Main
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale);
 			Macchinetta.aggiornamentoBicchieri(distributore);
 			Macchinetta.aggiornamentoZucchero(distributore, zucchero);
-			continue;
+			continue; 
 		}
 	}
 

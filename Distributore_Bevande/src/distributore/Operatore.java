@@ -49,7 +49,7 @@ public class Operatore
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, int quantitaDaRimuovere)
 	{
-		if (quantitaDaRimuovere > 0 && prodotto.getQuantita() > quantitaDaRimuovere)
+		if (quantitaDaRimuovere > 0 && prodotto.getQuantita() >= quantitaDaRimuovere)
 			prodotto.setQuantita(prodotto.getQuantita() - quantitaDaRimuovere);
 		else
 			System.out.println("Errore");
@@ -86,6 +86,7 @@ public class Operatore
 		printProdottiAcquistati(acquistati);
 	}
 	
+	
 	// Metodo che ritorna l'incasso del distributore
 
 	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile)
@@ -98,6 +99,24 @@ public class Operatore
 		return distributore.incasso;
 	}
 	
+	private static void prodottiEsauriti(ArrayList<Prodotto> prodotti)
+	{
+		ArrayList<Prodotto> esauriti = new ArrayList<Prodotto>();
+		for (int i = 0; i < prodotti.size(); i++)
+		{
+			if (prodotti.get(i).getQuantita() == 0)
+				esauriti.add(prodotti.get(i));
+		}
+		printProdottiAcquistati(esauriti);
+	}
+	
+	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) {
+		for(Prodotto p : distributore.prodotti) {
+			p.setPrezzo(p.getPrezzo()*(1+percentuale/100));
+		}
+	}
+	
+	
 	// Metodo con tutte le azioni che può fare l'operatore sulla macchinetta
 
 	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
@@ -108,9 +127,11 @@ public class Operatore
 		{
 			switch (sceltaOperatore)
 			{
-			case 1: //Aggiunta prodotto
+			
+			case 1:
+				scanner.nextLine(); //Aggiunta prodotto
 				System.out.println("Inserisci nome prodotto: ");
-				String nome = scanner.next();
+				String nome = scanner.nextLine();
 				int id = -1;
 				while (id < 0)
 				{
@@ -240,12 +261,24 @@ public class Operatore
 				prodottiAcquistati(distributore.prodotti);
 				sceltaOperatore = -1;
 				break;
-			case 8:
+			case 8: //Visualizza lista prodotti esauriti
+				prodottiEsauriti(distributore.prodotti);
+				sceltaOperatore = -1;
+				break;
+			case 9:
+				System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
+				double percentuale=scanner.nextDouble();
+				cambioPrezzoMassa(distributore, percentuale);
+				sceltaOperatore = -1;
+				break;
+			case 10:
 				System.exit(0);
 				break;
 			default:
-				System.out.println("Scegli 1 per aggiungere un prodotto, 2 per rimuovere un prodotto, 3 per aggiungere la quantità di un prodotto, 4 per rimuovere la quantità di un prodotto,"
-						+ "\n5 per cambiare il prezzo di un prodotto, 6 per il totale incassato, 7 per vedere quali prodotti sono stati acquistati, 8 per resettare la macchinetta");
+				System.out.println("Premi: \n1) per aggiungere un prodotto \n2) per rimuovere un prodotto \n3) per aggiungere la quantità di un prodotto"
+						+ "\n4) per rimuovere la quantità di un prodotto \n5) per cambiare il prezzo di un prodotto"
+						+ " \n6) per il totale incassato \n7) per vedere quali prodotti sono stati acquistati \n8) per visualizzare lista prodotti esauriti"
+						+ "\n9) per cambiare il prezzo a tutti i prodotti \n10) per resettare la macchinetta");
 				sceltaOperatore = scanner.nextInt();
 				continue;
 			}
