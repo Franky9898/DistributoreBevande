@@ -89,10 +89,10 @@ public class Operatore
 	
 	// Metodo che ritorna l'incasso del distributore
 
-	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile)
+	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile, int quantitaAcquistare)
 	{
 		if (restabbile == true)
-			distributore.incasso += prodottoSelezionato.getPrezzo(); 
+			distributore.incasso += (prodottoSelezionato.getPrezzo()*quantitaAcquistare); 
 		else
 			distributore.incasso += subTotale - distributore.resto;
 

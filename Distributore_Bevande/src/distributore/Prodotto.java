@@ -73,11 +73,11 @@ public class Prodotto
 
 	//Metodo che restituisce un boolean se la bevanda è presente o meno
 	
-	public static boolean bevandaEsaurita(Prodotto bevanda)
+	public static boolean bevandaEsaurita(Prodotto bevanda, int quantitaAcquistare)
 	{
-		if (bevanda.quantita > 0)
+		if (bevanda.quantita >= quantitaAcquistare)
 		{
-			System.out.println("Prezzo: " + bevanda.prezzo);
+			System.out.println("Prezzo: " + (bevanda.prezzo*quantitaAcquistare));
 			return false;
 		} else
 		{
@@ -86,9 +86,9 @@ public class Prodotto
 		}
 	}
 
-	public static boolean controlloSubTotale(Prodotto bevanda, double subTotale)
+	public static boolean controlloSubTotale(Prodotto bevanda, double subTotale, int quantitaAcquistare)
 	{
-		if (subTotale >= bevanda.prezzo)
+		if (subTotale >= (bevanda.prezzo*quantitaAcquistare))
 			return true;
 		else
 			return false;
@@ -96,10 +96,10 @@ public class Prodotto
 
 	// Aggiornamento sulle quantita
 	
-	public static void erogazioneBevanda(Prodotto bevanda)
+	public static void erogazioneBevanda(Prodotto bevanda, int quantitaAcquistare)
 	{
-		bevanda.quantita--;
-		bevanda.quantitaAcquistata++;
+		bevanda.quantita=- quantitaAcquistare;
+		bevanda.quantitaAcquistata+= quantitaAcquistare;
 	}
 
 }
