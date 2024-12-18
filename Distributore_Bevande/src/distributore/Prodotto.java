@@ -75,9 +75,9 @@ public class Prodotto
 	
 	public static boolean bevandaEsaurita(Prodotto bevanda, int quantitaAcquistare)
 	{
-		if (bevanda.quantita >= quantitaAcquistare)
+		if (bevanda.quantita >= quantitaAcquistare) 
 		{
-			System.out.println("Prezzo: " + (bevanda.prezzo*quantitaAcquistare));
+			System.out.println(String.format("Prezzo: %.2f", bevanda.prezzo*quantitaAcquistare));
 			return false;
 		} else
 		{

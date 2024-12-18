@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Operatore
 {
-	//Tutte le cose che può fare l'operatore
+	// Tutte le cose che può fare l'operatore
 	public static final int codiceOperatore = 9999;
-	
+
 	// Metodo che permette all'operatore di aggiunfere un prodotto
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
@@ -16,9 +16,9 @@ public class Operatore
 		for (int i = 0; i < prodotti.size(); i++)
 		{
 			if (prodottoDaAggiungere.getId() != prodotti.get(i).getId())
-				checkCounter++; //Per il momento è unico, dunque aumento il counter
+				checkCounter++; // Per il momento è unico, dunque aumento il counter
 			else
-				break; //Non è unico si interrompe il ciclo
+				break; // Non è unico si interrompe il ciclo
 		}
 		if (checkCounter == prodotti.size())
 		{
@@ -27,14 +27,14 @@ public class Operatore
 		} else
 			System.out.println("L'id è già in uso.");
 	}
-	
+
 	// Metodo per rimuovere un prodotto
 
 	private static void rimuovereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaRimuovere)
 	{
 		prodotti.remove(prodottoDaRimuovere);
 	}
-	
+
 	// Metodo per aggiungere la quantità
 
 	private static void aggiungereQuantitaProdotto(Prodotto prodotto, int quantitaDaAggiungere)
@@ -44,7 +44,7 @@ public class Operatore
 		else
 			System.out.println("Errore");
 	}
-	
+
 	// Metodo per ridurre la quantità
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, int quantitaDaRimuovere)
@@ -64,15 +64,15 @@ public class Operatore
 	}
 
 	// Metodo print personalizzata per evidenziare la quantità acquistata di un prodotto
-	
-	private static void printProdottiAcquistati(ArrayList<Prodotto> lista) 
+
+	private static void printProdottiAcquistati(ArrayList<Prodotto> lista)
 	{
 		for (int i = 0; i < lista.size(); i++)
 		{
 			System.out.println("Prodotto: " + lista.get(i).getNome() + ", acquistato " + lista.get(i).getQuantitaAcquistata() + " volte.");
 		}
 	}
-	
+
 	// Metodo che aggiunge in un array i prodotti acquistati
 
 	private static void prodottiAcquistati(ArrayList<Prodotto> prodotti)
@@ -85,20 +85,19 @@ public class Operatore
 		}
 		printProdottiAcquistati(acquistati);
 	}
-	
-	
+
 	// Metodo che ritorna l'incasso del distributore
 
 	public static double aggiornamentoIncasso(Macchinetta distributore, Prodotto prodottoSelezionato, double subTotale, boolean restabbile, int quantitaAcquistare)
 	{
 		if (restabbile == true)
-			distributore.incasso += (prodottoSelezionato.getPrezzo()*quantitaAcquistare); 
+			distributore.incasso += (prodottoSelezionato.getPrezzo() * quantitaAcquistare);
 		else
 			distributore.incasso += subTotale - distributore.resto;
 
 		return distributore.incasso;
 	}
-	
+
 	private static void prodottiEsauriti(ArrayList<Prodotto> prodotti)
 	{
 		ArrayList<Prodotto> esauriti = new ArrayList<Prodotto>();
@@ -109,14 +108,48 @@ public class Operatore
 		}
 		printProdottiAcquistati(esauriti);
 	}
-	
-	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) {
-		for(Prodotto p : distributore.prodotti) {
-			p.setPrezzo(p.getPrezzo()*(1+percentuale/100));
+
+	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) //Cambia il prezzo di una percentuale in base al numero inserito, con segno
+	{
+		for (Prodotto p : distributore.prodotti)
+		{
+			p.setPrezzo(p.getPrezzo() * (1 + percentuale / 100));
 		}
 	}
-	
-	
+
+	private static Prodotto creazioneProdotto(Scanner scanner) //Input necessari per la creazione di un nuovo prodotto
+	{
+		scanner.nextLine();
+		System.out.println("Inserisci nome prodotto: ");
+		String nome = scanner.nextLine();
+		int id = -1;
+		while (id < 0)
+		{
+			System.out.println("Inserisci id prodotto: ");
+			id = scanner.nextInt();
+			scanner.nextLine();
+		}
+		double prezzo = -1;
+		while (prezzo < 0)
+		{
+			System.out.println("Inserisci prezzo prodotto: ");
+			prezzo = scanner.nextDouble();
+			scanner.nextLine();
+		}
+		System.out.println("Definisci se il prodotto è una bevanda calda: ");
+		boolean bevandaCalda = scanner.nextBoolean();
+		int quantita = -1;
+		while (quantita < 0)
+		{
+			System.out.println("Inserisci quantità iniziale prodotto: ");
+			quantita = scanner.nextInt();
+			scanner.nextLine();
+		}
+		// Istanza dell'oggetto Prodotto da aggiungere
+		Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
+		return prodottoDaAggiungere;
+	}
+
 	// Metodo con tutte le azioni che può fare l'operatore sulla macchinetta
 
 	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
@@ -127,147 +160,53 @@ public class Operatore
 		{
 			switch (sceltaOperatore)
 			{
-			
+
 			case 1:
-				scanner.nextLine(); //Aggiunta prodotto
-				System.out.println("Inserisci nome prodotto: ");
-				String nome = scanner.nextLine();
-				int id = -1;
-				while (id < 0)
-				{
-					System.out.println("Inserisci id prodotto: ");
-					id = scanner.nextInt();
-				}
-				double prezzo = -1;
-				while (prezzo < 0)
-				{
-					System.out.println("Inserisci prezzo prodotto: ");
-					prezzo = scanner.nextDouble();
-				}
-				System.out.println("Definisci se il prodotto è una bevanda calda: ");
-				boolean bevandaCalda = scanner.nextBoolean();
-				int quantita = -1;
-				while (quantita < 0)
-				{
-					System.out.println("Inserisci quantità iniziale prodotto: ");
-					quantita = scanner.nextInt();
-				}
-				//Istanza dell'oggetto Prodotto da aggiungere
-				Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
+				Prodotto prodottoDaAggiungere = creazioneProdotto(scanner);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
 				sceltaOperatore = -1;
 				break;
-			case 2: //Rimozione prodotto
-				System.out.println("Inserisci id prodotto da rimuovere: ");
-				id = scanner.nextInt();
-				int j = -1;
-				for (int i = 0; i < distributore.prodotti.size(); i++)
-				{
-					if (distributore.prodotti.get(i).getId() == id)
-					{
-						j = i;
-						break;
-					}
-				}
-				if (j != -1)
-				{
-					Prodotto prodottoDaRimuovere = distributore.prodotti.get(j);
-					rimuovereProdotto(distributore.prodotti, prodottoDaRimuovere);
-					System.out.println("Prodotto rimosso");
-
-				} else
-				{
-					System.out.println("Id non trovato");
-				}
+			case 2: // Rimozione prodotto
+				Prodotto prodottoDaRimuovere = Macchinetta.selezioneIdProdotto(distributore, scanner);
+				rimuovereProdotto(distributore.prodotti, prodottoDaRimuovere);
 				sceltaOperatore = -1;
 				break;
-			case 3: //Aggiungere quantità prodotto
-				System.out.println("Inserisci id prodotto di cui vuoi aggiungere quantita: ");
-				id = scanner.nextInt();
-				j = -1;
-				for (int i = 0; i < distributore.prodotti.size(); i++)
-				{
-					if (distributore.prodotti.get(i).getId() == id)
-					{
-						j = i;
-						break;
-					}
-				}
-				if (j != -1)
-				{
-					Prodotto prodottoDaRimpolpare = distributore.prodotti.get(j);
-					System.out.println("Inserisci la quantità da aggiungere: ");
-					quantita = scanner.nextInt();
-					aggiungereQuantitaProdotto(prodottoDaRimpolpare, quantita);
-				} else
-				{
-					System.out.println("Id non trovato");
-				}
+			case 3: // Aggiungere quantità prodotto
+				Prodotto prodottoDaRimpolpare = Macchinetta.selezioneIdProdotto(distributore, scanner);
+				System.out.println("Inserisci la quantità da aggiungere: ");
+				int quantita = scanner.nextInt();
+				aggiungereQuantitaProdotto(prodottoDaRimpolpare, quantita);
 				sceltaOperatore = -1;
 				break;
-			case 4: //Rimozione prodotto
-				System.out.println("Inserisci id prodotto di cui vuoi rimuovere quantita: ");
-				id = scanner.nextInt();
-				j = -1;
-				for (int i = 0; i < distributore.prodotti.size(); i++)
-				{
-					if (distributore.prodotti.get(i).getId() == id)
-					{
-						j = i;
-						break;
-					}
-				}
-				if (j != -1)
-				{
-					Prodotto prodottoDaDecimare = distributore.prodotti.get(j);
-					System.out.println("Inserisci la quantità da rimuovere: ");
-					quantita = scanner.nextInt();
-					rimuovereQuantitaProdotto(prodottoDaDecimare, quantita);
-				} else
-				{
-					System.out.println("Id non trovato");
-				}
+			case 4: // Rimozione quantita prodotto
+				Prodotto prodottoDaDecimare = Macchinetta.selezioneIdProdotto(distributore, scanner);
+				System.out.println("Inserisci la quantità da diminuire: ");
+				quantita = scanner.nextInt();
+				rimuovereQuantitaProdotto(prodottoDaDecimare, quantita);
 				sceltaOperatore = -1;
 				break;
-			case 5: //Cambiare prezzo prodotto
-				System.out.println("Inserisci id prodotto di cui vuoi cambiare prezzo: ");
-				id = scanner.nextInt();
-				j = -1;
-				for (int i = 0; i < distributore.prodotti.size(); i++)
-				{
-					if (distributore.prodotti.get(i).getId() == id)
-					{
-						j = i;
-						break;
-					}
-				}
-				if (j != -1)
-				{
-					Prodotto prodottoPrezzare = distributore.prodotti.get(j);
-					System.out.println("Inserisci nuovo prezzo: ");
-					prezzo = scanner.nextDouble();
-					cambiarePrezzoProdotto(prodottoPrezzare, prezzo);
-				} else
-				{
-					System.out.println("Id non trovato");
-				}
+			case 5: // Cambiare prezzo prodotto
+				Prodotto prodottoPrezzare = Macchinetta.selezioneIdProdotto(distributore, scanner);
+				System.out.println("Inserisci nuovo prezzo: ");
+				double prezzo = scanner.nextDouble();
+				cambiarePrezzoProdotto(prodottoPrezzare, prezzo);
 				sceltaOperatore = -1;
 				break;
-			case 6: //Visualizza totale incassato
+			case 6: // Visualizza totale incassato
 				System.out.println("Incasso: " + distributore.getIncasso());
 				sceltaOperatore = -1;
 				break;
-			case 7: //Visualizza lista prodotti acquistati
+			case 7: // Visualizza lista prodotti acquistati
 				prodottiAcquistati(distributore.prodotti);
 				sceltaOperatore = -1;
 				break;
-			case 8: //Visualizza lista prodotti esauriti
+			case 8: // Visualizza lista prodotti esauriti
 				prodottiEsauriti(distributore.prodotti);
 				sceltaOperatore = -1;
 				break;
-			case 9:
+			case 9: //Cambiare prezzo a tutti i prodotti
 				System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
-				double percentuale=scanner.nextDouble();
+				double percentuale = scanner.nextDouble();
 				cambioPrezzoMassa(distributore, percentuale);
 				sceltaOperatore = -1;
 				break;

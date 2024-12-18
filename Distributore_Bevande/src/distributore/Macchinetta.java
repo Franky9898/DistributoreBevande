@@ -80,7 +80,7 @@ public class Macchinetta
 		int[] listaZucchero = new int[quantitaAcquistare];
 		for (int i = 0; i < listaZucchero.length; i++)
 		{
-			System.out.println("Inserisci lo zucchero per la bevanda numero: " + (i + 1));
+			System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda numero: " + (i + 1) + ". Premere 10 per annullare: ");
 			int zucchero = scanner.nextInt();
 			
 				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero-zuccheroSel))
