@@ -5,6 +5,49 @@ import java.util.Scanner;
 
 public class Main
 {
+	public static int getInt(Scanner scanner) //Gestisce il typo da parte dell'utente
+	{
+		while (true)
+		{ 
+			try
+			{
+				return scanner.nextInt();
+			} catch (Exception e)
+			{
+				System.out.println("Perfavore inserisci un numero intero.");
+				scanner.next();
+			}
+		}
+	}
+	public static double getDouble(Scanner scanner) //Gestisce il typo da parte dell'utente
+	{
+		while (true)
+		{
+			try
+			{
+				return scanner.nextDouble();
+			} catch (Exception e)
+			{
+				System.out.println("Perfavore inserisci un numero.");
+				scanner.next();
+			}
+		}
+	}
+	public static boolean getBoolean(Scanner scanner) //Gestisce il typo da parte dell'utente
+	{
+		while (true)
+		{
+			try
+			{
+				return scanner.nextBoolean();
+			} catch (Exception e)
+			{
+				System.out.println("Perfavore inserisci true o false.");
+				scanner.next();
+			}
+		}
+	}
+
 	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) // Funzione principale, contiene le scelte dei prodotti e le azioni operatore
 	{
 		while (true)
@@ -19,7 +62,7 @@ public class Main
 			while (quantitaAcquistare < 1)
 			{
 				System.out.println("Seleziona quantità da acquistare: ");
-				quantitaAcquistare = scanner.nextInt();
+				quantitaAcquistare = getInt(scanner);
 			}
 			boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato, quantitaAcquistare);
 			if (disponibilita) // Il prodotto è esaurito, quindi si ricomincia dall'inizio
@@ -36,14 +79,14 @@ public class Main
 			{
 				System.out.println("Non c'è abbastanza resto. Vuoi continuare a costo maggiorato? Premi 1 per sì");
 				int conferma = 0;
-				conferma = scanner.nextInt();
+				conferma = getInt(scanner);
 				if (conferma != 1)
 					continue;
 			}
 			if (!prodottoSelezionato.getBevandaCalda()) // Bevanda Fredda
 			{
 				Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
-				String output =(quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande"; 
+				String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
 				System.out.println(output);
 				Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
 				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
@@ -54,10 +97,10 @@ public class Main
 				continue;
 			int[] listaZucchero = Macchinetta.selezioneZucchero(distributore, quantitaAcquistare, scanner);
 			if (listaZucchero == null) // Se l'utente ha premuto "annulla" riparte il loop
-				continue; 
+				continue;
 			Macchinetta.erogazioneBacchetta(distributore, quantitaAcquistare);
 			Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
-			String output =(quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande"; 
+			String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
 			System.out.println(output);
 			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);

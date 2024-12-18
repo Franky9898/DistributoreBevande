@@ -50,7 +50,7 @@ public class Macchinetta
 		{
 			Macchinetta.stampaProdotti(distributore);
 			System.out.println("Inserisci id prodotto: ");
-			int id = scanner.nextInt();
+			int id = Main.getInt(scanner);
 			if (id == Operatore.codiceOperatore) // L'id operatore ritorna null
 				return null;
 			for (Prodotto p : distributore.prodotti)
@@ -94,7 +94,7 @@ public class Macchinetta
 				} else
 				{
 					System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda: " + (i+1) + ". Premere 10 per annullare:  ");
-					zucchero = scanner.nextInt();
+					zucchero = Main.getInt(scanner);
 					if (zucchero == 10)
 						return null;
 				}

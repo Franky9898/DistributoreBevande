@@ -18,7 +18,7 @@ public class Moneta
 		while (valoreMoneta < 0.1 || valoreMoneta > 2.0)
 		{
 			System.out.println("Inserisci moneta: ");
-			valoreMoneta = scanner.nextDouble();
+			valoreMoneta = Main.getDouble(scanner);
 		}
 		for (int i = 0; i < moneteValide.length; i++)
 		{

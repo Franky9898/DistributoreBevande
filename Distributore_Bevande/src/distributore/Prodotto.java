@@ -98,7 +98,7 @@ public class Prodotto
 	
 	public static void erogazioneBevanda(Prodotto bevanda, int quantitaAcquistare)
 	{
-		bevanda.quantita=- quantitaAcquistare;
+		bevanda.quantita-= quantitaAcquistare;
 		bevanda.quantitaAcquistata+= quantitaAcquistare;
 	}
 

@@ -28,6 +28,11 @@ public class Operatore
 
 	private static void rimuovereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaRimuovere)
 	{
+		if (prodottoDaRimuovere == null)
+		{
+			System.out.println("Hai provato a rimuovere il codice operatore... Bravo non è successo niente.");
+			return;
+		}
 		prodotti.remove(prodottoDaRimuovere);
 	}
 
@@ -39,7 +44,7 @@ public class Operatore
 		do
 		{
 			System.out.println("Inserisci la quantità da aggiungere: ");
-			quantita = scanner.nextInt();
+			quantita = Main.getInt(scanner);
 		} while (quantita < 1);
 		prodotto.setQuantita(prodotto.getQuantita() + quantita);
 	}
@@ -48,11 +53,16 @@ public class Operatore
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
+		if (prodotto.getQuantita() == 0)
+		{
+			System.out.println("Il prodotto è esaurito.");
+			return;
+		}
 		int quantita = 0;
 		do
 		{
 			System.out.println("Inserisci la quantità da rimuovere: ");
-			quantita = scanner.nextInt();
+			quantita = Main.getInt(scanner);
 		} while (quantita <= prodotto.getQuantita()); // Il controllo su quantita>0 non serve perché "quantitaProdotto" non può scendere sotto lo 0.
 		prodotto.setQuantita(prodotto.getQuantita() - quantita);
 	}
@@ -63,32 +73,20 @@ public class Operatore
 		do
 		{
 			System.out.println("Inserisci nuovo prezzo: ");
-			nuovoPrezzo = scanner.nextDouble();
+			nuovoPrezzo = Main.getDouble(scanner);
 		} while (nuovoPrezzo < 0);
 		prodotto.setPrezzo(nuovoPrezzo);
-	}
-
-	// Metodo print personalizzata per evidenziare la quantità acquistata di un prodotto
-
-	private static void printProdottiAcquistati(ArrayList<Prodotto> lista)
-	{
-		for (int i = 0; i < lista.size(); i++)
-		{
-			System.out.println("Prodotto: " + lista.get(i).getNome() + ", acquistato " + lista.get(i).getQuantitaAcquistata() + " volte.");
-		}
 	}
 
 	// Metodo che aggiunge in un array i prodotti acquistati
 
 	private static void prodottiAcquistati(ArrayList<Prodotto> prodotti)
 	{
-		ArrayList<Prodotto> acquistati = new ArrayList<Prodotto>();
 		for (int i = 0; i < prodotti.size(); i++)
 		{
 			if (prodotti.get(i).getQuantitaAcquistata() > 0)
-				acquistati.add(prodotti.get(i));
+				System.out.println("Prodotto: " + prodotti.get(i).getNome() + ", acquistato " + prodotti.get(i).getQuantitaAcquistata() + " volte.");
 		}
-		printProdottiAcquistati(acquistati);
 	}
 
 	// Metodo che ritorna l'incasso del distributore
@@ -105,17 +103,21 @@ public class Operatore
 
 	private static void prodottiEsauriti(ArrayList<Prodotto> prodotti)
 	{
-		ArrayList<Prodotto> esauriti = new ArrayList<Prodotto>();
 		for (int i = 0; i < prodotti.size(); i++)
 		{
 			if (prodotti.get(i).getQuantita() == 0)
-				esauriti.add(prodotti.get(i));
+				System.out.println("Prodotto esaurito: " + prodotti.get(i).getNome());
 		}
-		printProdottiAcquistati(esauriti);
 	}
 
-	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) // Cambia il prezzo di una percentuale in base al numero inserito, con segno
+	private static void cambioPrezzoMassa(Macchinetta distributore, Scanner scanner) // Cambia il prezzo di una percentuale in base al numero inserito, con segno
 	{
+		double percentuale = 0;
+		do
+		{
+			System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
+			percentuale = Main.getDouble(scanner);
+		} while (percentuale == 0);
 		for (Prodotto p : distributore.prodotti)
 		{
 			p.setPrezzo(p.getPrezzo() * (1 + percentuale / 100));
@@ -128,27 +130,24 @@ public class Operatore
 		System.out.println("Inserisci nome prodotto: ");
 		String nome = scanner.nextLine();
 		int id = -1;
-		while (id < 0)
+		while (id < 0 || id == 9999)
 		{
 			System.out.println("Inserisci id prodotto: ");
-			id = scanner.nextInt();
-			scanner.nextLine();
+			id = Main.getInt(scanner);
 		}
 		double prezzo = -1;
 		while (prezzo < 0)
 		{
 			System.out.println("Inserisci prezzo prodotto: ");
-			prezzo = scanner.nextDouble();
-			scanner.nextLine();
+			prezzo = Main.getDouble(scanner);
 		}
 		System.out.println("Definisci se il prodotto è una bevanda calda: ");
-		boolean bevandaCalda = scanner.nextBoolean();
+		boolean bevandaCalda = Main.getBoolean(scanner);
 		int quantita = -1;
 		while (quantita < 0)
 		{
 			System.out.println("Inserisci quantità iniziale prodotto: ");
-			quantita = scanner.nextInt();
-			scanner.nextLine();
+			quantita = Main.getInt(scanner);
 		}
 		// Istanza dell'oggetto Prodotto da aggiungere
 		Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
@@ -165,7 +164,6 @@ public class Operatore
 		{
 			switch (sceltaOperatore)
 			{
-
 			case 1:
 				Prodotto prodottoDaAggiungere = creazioneProdotto(scanner);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
@@ -204,24 +202,22 @@ public class Operatore
 				sceltaOperatore = -1;
 				break;
 			case 9: // Cambiare prezzo a tutti i prodotti
-				System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
-				double percentuale = scanner.nextDouble();
-				cambioPrezzoMassa(distributore, percentuale);
+				cambioPrezzoMassa(distributore, scanner);
 				sceltaOperatore = -1;
 				break;
 			case 10:
-				System.exit(0);
+				System.exit(0); // Commento per il futuro: return non basta perché il metodo è dentro il metodo chiamato nel main.
 				break;
 			default:
 				System.out.println("Premi: \n1) per aggiungere un prodotto \n2) per rimuovere un prodotto \n3) per aggiungere la quantità di un prodotto"
 						+ "\n4) per rimuovere la quantità di un prodotto \n5) per cambiare il prezzo di un prodotto"
 						+ " \n6) per il totale incassato \n7) per vedere quali prodotti sono stati acquistati \n8) per visualizzare lista prodotti esauriti"
 						+ "\n9) per cambiare il prezzo a tutti i prodotti \n10) per resettare la macchinetta");
-				sceltaOperatore = scanner.nextInt();
+				sceltaOperatore = Main.getInt(scanner);
 				continue;
 			}
 			System.out.println("Vuoi fare altro? Premi 1 per sì.");
-			continua = scanner.nextInt();
+			continua = Main.getInt(scanner);
 		}
 	}
 
