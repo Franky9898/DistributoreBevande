@@ -75,7 +75,7 @@ public class Operatore
 			System.out.println("Inserisci nuovo prezzo: ");
 			nuovoPrezzo = Main.getDouble(scanner);
 		} while (nuovoPrezzo < 0);
-		prodotto.setPrezzo(nuovoPrezzo);
+		prodotto.setPrezzo((double)Math.round(nuovoPrezzo*10)/10);
 	}
 
 	// Metodo che aggiunge in un array i prodotti acquistati
@@ -120,7 +120,7 @@ public class Operatore
 		} while (percentuale == 0);
 		for (Prodotto p : distributore.prodotti)
 		{
-			p.setPrezzo(p.getPrezzo() * (1 + percentuale / 100));
+			p.setPrezzo((double)Math.round(p.getPrezzo() * (1 + percentuale / 100)*10)/10);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class Operatore
 				sceltaOperatore = -1;
 				break;
 			case 6: // Visualizza totale incassato
-				System.out.println("Incasso: " + distributore.getIncasso());
+				System.out.println(String.format("Incasso: %.2f€", distributore.getIncasso()));
 				sceltaOperatore = -1;
 				break;
 			case 7: // Visualizza lista prodotti acquistati
