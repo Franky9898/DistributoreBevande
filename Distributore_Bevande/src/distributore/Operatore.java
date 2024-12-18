@@ -12,20 +12,16 @@ public class Operatore
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
 	{
-		int checkCounter = 0;
 		for (int i = 0; i < prodotti.size(); i++)
 		{
-			if (prodottoDaAggiungere.getId() != prodotti.get(i).getId())
-				checkCounter++; // Per il momento è unico, dunque aumento il counter
-			else
-				break; // Non è unico si interrompe il ciclo
+			if (prodottoDaAggiungere.getId() == prodotti.get(i).getId())
+			{
+				System.out.println("L'id è già in uso.");
+				return;
+			}
 		}
-		if (checkCounter == prodotti.size())
-		{
-			prodotti.add(prodottoDaAggiungere);
-			System.out.println("Prodotto aggiunto con successo.");
-		} else
-			System.out.println("L'id è già in uso.");
+		prodotti.add(prodottoDaAggiungere);
+		System.out.println("Prodotto aggiunto con successo.");
 	}
 
 	// Metodo per rimuovere un prodotto
@@ -37,30 +33,39 @@ public class Operatore
 
 	// Metodo per aggiungere la quantità
 
-	private static void aggiungereQuantitaProdotto(Prodotto prodotto, int quantitaDaAggiungere)
+	private static void aggiungereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
-		if (quantitaDaAggiungere > 0)
-			prodotto.setQuantita(prodotto.getQuantita() + quantitaDaAggiungere);
-		else
-			System.out.println("Errore");
+		int quantita = 0;
+		do
+		{
+			System.out.println("Inserisci la quantità da aggiungere: ");
+			quantita = scanner.nextInt();
+		} while (quantita < 1);
+		prodotto.setQuantita(prodotto.getQuantita() + quantita);
 	}
 
 	// Metodo per ridurre la quantità
 
-	private static void rimuovereQuantitaProdotto(Prodotto prodotto, int quantitaDaRimuovere)
+	private static void rimuovereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
-		if (quantitaDaRimuovere > 0 && prodotto.getQuantita() >= quantitaDaRimuovere)
-			prodotto.setQuantita(prodotto.getQuantita() - quantitaDaRimuovere);
-		else
-			System.out.println("Errore");
+		int quantita = 0;
+		do
+		{
+			System.out.println("Inserisci la quantità da rimuovere: ");
+			quantita = scanner.nextInt();
+		} while (quantita <= prodotto.getQuantita()); // Il controllo su quantita>0 non serve perché "quantitaProdotto" non può scendere sotto lo 0.
+		prodotto.setQuantita(prodotto.getQuantita() - quantita);
 	}
 
-	private static void cambiarePrezzoProdotto(Prodotto prodotto, double nuovoPrezzo)
+	private static void cambiarePrezzoProdotto(Prodotto prodotto, Scanner scanner)
 	{
-		if (nuovoPrezzo > 0)
-			prodotto.setPrezzo(nuovoPrezzo);
-		else
-			System.out.println("Errore");
+		double nuovoPrezzo = 0;
+		do
+		{
+			System.out.println("Inserisci nuovo prezzo: ");
+			nuovoPrezzo = scanner.nextDouble();
+		} while (nuovoPrezzo < 0);
+		prodotto.setPrezzo(nuovoPrezzo);
 	}
 
 	// Metodo print personalizzata per evidenziare la quantità acquistata di un prodotto
@@ -109,7 +114,7 @@ public class Operatore
 		printProdottiAcquistati(esauriti);
 	}
 
-	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) //Cambia il prezzo di una percentuale in base al numero inserito, con segno
+	private static void cambioPrezzoMassa(Macchinetta distributore, double percentuale) // Cambia il prezzo di una percentuale in base al numero inserito, con segno
 	{
 		for (Prodotto p : distributore.prodotti)
 		{
@@ -117,7 +122,7 @@ public class Operatore
 		}
 	}
 
-	private static Prodotto creazioneProdotto(Scanner scanner) //Input necessari per la creazione di un nuovo prodotto
+	private static Prodotto creazioneProdotto(Scanner scanner) // Input necessari per la creazione di un nuovo prodotto
 	{
 		scanner.nextLine();
 		System.out.println("Inserisci nome prodotto: ");
@@ -173,23 +178,17 @@ public class Operatore
 				break;
 			case 3: // Aggiungere quantità prodotto
 				Prodotto prodottoDaRimpolpare = Macchinetta.selezioneIdProdotto(distributore, scanner);
-				System.out.println("Inserisci la quantità da aggiungere: ");
-				int quantita = scanner.nextInt();
-				aggiungereQuantitaProdotto(prodottoDaRimpolpare, quantita);
+				aggiungereQuantitaProdotto(prodottoDaRimpolpare, scanner);
 				sceltaOperatore = -1;
 				break;
 			case 4: // Rimozione quantita prodotto
 				Prodotto prodottoDaDecimare = Macchinetta.selezioneIdProdotto(distributore, scanner);
-				System.out.println("Inserisci la quantità da diminuire: ");
-				quantita = scanner.nextInt();
-				rimuovereQuantitaProdotto(prodottoDaDecimare, quantita);
+				rimuovereQuantitaProdotto(prodottoDaDecimare, scanner);
 				sceltaOperatore = -1;
 				break;
 			case 5: // Cambiare prezzo prodotto
-				Prodotto prodottoPrezzare = Macchinetta.selezioneIdProdotto(distributore, scanner);
-				System.out.println("Inserisci nuovo prezzo: ");
-				double prezzo = scanner.nextDouble();
-				cambiarePrezzoProdotto(prodottoPrezzare, prezzo);
+				Prodotto prodottoDaPrezzare = Macchinetta.selezioneIdProdotto(distributore, scanner);
+				cambiarePrezzoProdotto(prodottoDaPrezzare, scanner);
 				sceltaOperatore = -1;
 				break;
 			case 6: // Visualizza totale incassato
@@ -204,7 +203,7 @@ public class Operatore
 				prodottiEsauriti(distributore.prodotti);
 				sceltaOperatore = -1;
 				break;
-			case 9: //Cambiare prezzo a tutti i prodotti
+			case 9: // Cambiare prezzo a tutti i prodotti
 				System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
 				double percentuale = scanner.nextDouble();
 				cambioPrezzoMassa(distributore, percentuale);

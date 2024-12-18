@@ -75,39 +75,37 @@ public class Macchinetta
 
 	public static int[] selezioneZucchero(Macchinetta distributore, int quantitaAcquistare, Scanner scanner) // Permette di selezionare la quantità dello zucchero
 	{
-		//boolean conferma = true;
 		int zuccheroSel = 0;
 		int[] listaZucchero = new int[quantitaAcquistare];
 		for (int i = 0; i < listaZucchero.length; i++)
 		{
-			System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda numero: " + (i + 1) + ". Premere 10 per annullare: ");
-			int zucchero = scanner.nextInt();
-			
-				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero-zuccheroSel))
+			int zucchero = -1;
+			while (true)
+			{
+				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero - zuccheroSel))
 				{
-					listaZucchero[i]=zucchero;
-					zuccheroSel+=zucchero;
-				} else if ((zucchero <= -1 || zucchero >= 6) && zucchero != 10) // Input non valido
+					listaZucchero[i] = zucchero;
+					zuccheroSel += zucchero;
+					break;
+				} else if (zucchero > -1 && zucchero < 6 && zucchero > (distributore.zucchero - zuccheroSel))
 				{
-					System.out.println("Selezionare quantità zucchero tra 0 e 5. Premere 10 per annullare:  ");
-					zucchero = scanner.nextInt();
-					if (zucchero == 10) // Premuto 10, ricomincia
-						return null;
+					System.out.println("Zucchero non sufficiente, selezionare quantità minore.");
+					zucchero = -1;
 				} else
 				{
-					System.out.println("Zucchero non sufficiente, selezionare quantità minore o premere 10 per annullare.");
+					System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda: " + (i+1) + ". Premere 10 per annullare:  ");
 					zucchero = scanner.nextInt();
-					if (zucchero == 10) // Premuto 10, ricomincia
+					if (zucchero == 10)
 						return null;
 				}
-			
+			}
 		}
 		return listaZucchero;
 	}
 
 	public static void aggiornamentoZucchero(Macchinetta distributore, int[] zucchero)
 	{
-		for(Integer z: zucchero)
+		for (Integer z : zucchero)
 			distributore.zucchero -= z; // Aggiorna lo zucchero nel distributore
 	}
 
