@@ -77,7 +77,7 @@ public class Prodotto
 	{
 		if (bevanda.quantita >= quantitaAcquistare) 
 		{
-			System.out.println(String.format("Prezzo: %.2f", bevanda.prezzo*quantitaAcquistare));
+			System.out.println(String.format("Prezzo: %.2f€", bevanda.prezzo*quantitaAcquistare));
 			return false;
 		} else
 		{

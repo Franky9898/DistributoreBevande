@@ -25,7 +25,7 @@ public class Moneta
 			if (valoreMoneta == moneteValide[i].valore)
 			{
 				subTotale += valoreMoneta;
-				System.out.println(String.format("Subtotale: %.2f" , subTotale));
+				System.out.println(String.format("Subtotale: %.2f€" , subTotale));
 				break;
 			} else
 				c++;

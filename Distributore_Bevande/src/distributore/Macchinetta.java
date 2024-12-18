@@ -143,11 +143,11 @@ public class Macchinetta
 		if (distributore.resto >= restoDovuto) // Aggiorna resto distributore
 		{
 			distributore.resto -= (restoDovuto);
-			System.out.println("Il tuo resto: " + restoDovuto);
+			System.out.println("Il tuo resto: " + restoDovuto + "€");
 			distributore.resto += subTotale;
 		} else // Dà tutto il resto e per il prossimo utilizzo ottiene l'attuale subtotale
 		{
-			System.out.println("Il tuo resto: " + distributore.resto);
+			System.out.println("Il tuo resto: " + distributore.resto + "€");
 			distributore.resto = subTotale;
 		}
 	}
@@ -156,7 +156,7 @@ public class Macchinetta
 	{
 		for (Prodotto p : distributore.prodotti)
 		{
-			System.out.println(String.format("Id: %d, prodotto: %s, prezzo: %.2f ", p.getId(), p.getNome(), p.getPrezzo()));
+			System.out.println(String.format("Id: %d, prodotto: %s, prezzo: %.2f€ ", p.getId(), p.getNome(), p.getPrezzo()));
 		}
 	}
 
