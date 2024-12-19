@@ -161,8 +161,7 @@ public class Macchinetta
 
 	public static ArrayList<Prodotto> inizializzazioneProdotti()
 	{
-		// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
-		// quantita)
+		// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
 		listaProdotti.add(new Prodotto("Acqua calda", 10, 0.4, true, 5));
 		listaProdotti.add(new Prodotto("Caffe", 11, 0.5, true, 5));
