@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class Main
 {
-	public static int getInt(Scanner scanner) //Gestisce il typo da parte dell'utente
+	public static int getInt(Scanner scanner) // Gestisce il typo da parte dell'utente
 	{
 		while (true)
-		{ 
+		{
 			try
 			{
 				return scanner.nextInt();
@@ -19,7 +19,8 @@ public class Main
 			}
 		}
 	}
-	public static double getDouble(Scanner scanner) //Gestisce il typo da parte dell'utente
+
+	public static double getDouble(Scanner scanner) // Gestisce il typo da parte dell'utente
 	{
 		while (true)
 		{
@@ -33,7 +34,8 @@ public class Main
 			}
 		}
 	}
-	public static boolean getBoolean(Scanner scanner) //Gestisce il typo da parte dell'utente
+
+	public static boolean getBoolean(Scanner scanner) // Gestisce il typo da parte dell'utente
 	{
 		while (true)
 		{
@@ -48,7 +50,9 @@ public class Main
 		}
 	}
 
-	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) // Funzione principale, contiene le scelte dei prodotti e le azioni operatore
+	public static void funzioneMacchinetta(Macchinetta distributore, Scanner scanner) // Funzione principale, contiene
+																						// le scelte dei prodotti e le
+																						// azioni operatore
 	{
 		while (true)
 		{
@@ -64,17 +68,24 @@ public class Main
 				System.out.println("Seleziona quantità da acquistare: ");
 				quantitaAcquistare = getInt(scanner);
 			}
-			boolean disponibilita = Prodotto.bevandaEsaurita(prodottoSelezionato, quantitaAcquistare);
-			if (disponibilita) // Il prodotto è esaurito, quindi si ricomincia dall'inizio
+			// ************BEVANDA ESAURITA************************
+			quantitaAcquistare = Prodotto.bevandaEsaurita(prodottoSelezionato, quantitaAcquistare, scanner);
+			
+			if (quantitaAcquistare == 0) // // Il prodotto è esaurito o l'utente ha annullato, ricomincia dall' inizio
 				continue;
+			
 			boolean acquistabile = false;
 			double subTotale = 0;
+			
+			// Gestisce l'inserimento delle monete fino a raggiungere il subtotale richiesto
 			do
 			{
 				subTotale = Moneta.inserisciMoneta(distributore.moneteValide, subTotale, scanner);
 				acquistabile = Prodotto.controlloSubTotale(prodottoSelezionato, subTotale, quantitaAcquistare);
 			} while (!acquistabile);
-			boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
+
+			boolean restabbile = Macchinetta.controlloResto(distributore, prodottoSelezionato, subTotale,
+					quantitaAcquistare);
 			if (!restabbile)
 			{
 				System.out.println("Non c'è abbastanza resto. Vuoi continuare a costo maggiorato? Premi 1 per sì");
@@ -88,7 +99,8 @@ public class Main
 				Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
 				String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
 				System.out.println(output);
-				Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
+				Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile,
+						quantitaAcquistare);
 				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
 				continue;
 			}
@@ -102,7 +114,8 @@ public class Main
 			Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
 			String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
 			System.out.println(output);
-			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
+			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile,
+					quantitaAcquistare);
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
 			Macchinetta.aggiornamentoBicchieri(distributore, quantitaAcquistare);
 			Macchinetta.aggiornamentoZucchero(distributore, listaZucchero);
@@ -116,7 +129,8 @@ public class Main
 		Moneta[] moneteValide = Moneta.inizializzazioneMoneteValide();
 		ArrayList<Prodotto> listaProdotti = Macchinetta.inizializzazioneProdotti();
 
-		// Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int
+		// Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double
+		// resto, int
 		// zucchero, int bacchette, int bicchieri)
 		Macchinetta distributore = new Macchinetta(listaProdotti, moneteValide, 5, 10, 10, 10);
 		funzioneMacchinetta(distributore, scanner);

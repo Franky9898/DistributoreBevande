@@ -1,5 +1,7 @@
 package distributore;
 
+import java.util.Scanner;
+
 public class Prodotto
 {
 	private final String nome;
@@ -10,7 +12,7 @@ public class Prodotto
 	private int quantitaAcquistata;
 
 	// Costruttore
-	
+
 	public Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	{
 		if (id < 10)
@@ -71,35 +73,56 @@ public class Prodotto
 		this.quantitaAcquistata = nuovaQuantitaAcquistata;
 	}
 
-	//Metodo che restituisce un boolean se la bevanda è presente o meno
-	
-	public static boolean bevandaEsaurita(Prodotto bevanda, int quantitaAcquistare)
+	// Metodo che restituisce un boolean se la bevanda è presente o meno
+
+	public static int bevandaEsaurita(Prodotto bevanda, int quantitaAcquistare, Scanner scanner)
 	{
-		if (bevanda.quantita >= quantitaAcquistare) 
+		if (bevanda.quantita == 0)
 		{
-			System.out.println(String.format("Prezzo: %.2f€", bevanda.prezzo*quantitaAcquistare));
-			return false;
+			System.out.println("Il prodotto è esaurito. Non è possibile acquistarlo.");
+			return 0; // Prodotto non disponibile
+		}
+		if (bevanda.quantita >= quantitaAcquistare)
+		{
+			System.out.println(String.format("Prezzo: %.2f€", bevanda.prezzo * quantitaAcquistare));
+			bevanda.quantita -= quantitaAcquistare;
+			return quantitaAcquistare; // Acquisto effettuato
 		} else
 		{
-			System.out.println("Prodotto esaurito.");
-			return true;
+			System.out.println("Quantità insufficiente. Prodotto esaurito per la quantità richiesta.");
+			System.out.println("La quantità disponibile è: " + bevanda.quantita);
+
+			System.out.println("Procedere con la quantità disponibile? Premi 1 per sì.");
+			int procedere = Main.getInt(scanner);
+			if (procedere == 1)
+			{
+				int quantitaEffettiva = bevanda.quantita;
+				System.out.println(String.format("Prezzo: %.2f€", bevanda.prezzo * bevanda.quantita));
+				
+				bevanda.quantita = 0;
+				return quantitaEffettiva; // Acquisto effettuato
+			} else
+			{
+				System.out.println("Operazione annullata.");
+				return 0; // Nessun acquisto
+			}
 		}
 	}
 
 	public static boolean controlloSubTotale(Prodotto bevanda, double subTotale, int quantitaAcquistare)
 	{
-		if (subTotale >= (bevanda.prezzo*quantitaAcquistare))
+		if (subTotale >= (bevanda.prezzo * quantitaAcquistare))
 			return true;
 		else
 			return false;
 	}
 
 	// Aggiornamento sulle quantita
-	
+
 	public static void erogazioneBevanda(Prodotto bevanda, int quantitaAcquistare)
 	{
-		bevanda.quantita-= quantitaAcquistare;
-		bevanda.quantitaAcquistata+= quantitaAcquistare;
+		//bevanda.quantita -= quantitaAcquistare; l'ho messo in bevandaEsaurita
+		bevanda.quantitaAcquistata += quantitaAcquistare;
 	}
 
 }
