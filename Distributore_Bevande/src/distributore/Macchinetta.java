@@ -75,28 +75,31 @@ public class Macchinetta
 
 	public static int[] selezioneZucchero(Macchinetta distributore, int quantitaAcquistare, Scanner scanner) // Permette di selezionare la quantità dello zucchero
 	{
-		int zuccheroSel = 0;
+		int zuccheroSelezionato = 0;
 		int[] listaZucchero = new int[quantitaAcquistare];
 		for (int i = 0; i < listaZucchero.length; i++)
 		{
 			int zucchero = -1;
 			while (true)
 			{
-				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero - zuccheroSel))
+				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero - zuccheroSelezionato))
 				{
 					listaZucchero[i] = zucchero;
-					zuccheroSel += zucchero;
+					zuccheroSelezionato += zucchero;
 					break;
-				} else if (zucchero > -1 && zucchero < 6 && zucchero > (distributore.zucchero - zuccheroSel))
+				} else if (zucchero > -1 && zucchero < 6 && zucchero > (distributore.zucchero - zuccheroSelezionato))
 				{
 					System.out.println("Zucchero non sufficiente, selezionare quantità minore.");
 					zucchero = -1;
 				} else
 				{
-					System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda: " + (i+1) + ". Premere 10 per annullare:  ");
+					System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda: " + (i + 1) + ". Premere 10 per annullare:  ");
 					zucchero = Main.getInt(scanner);
 					if (zucchero == 10)
+					{
+						System.out.println("Operazione annullata.");
 						return null;
+					}
 				}
 			}
 		}
@@ -143,11 +146,11 @@ public class Macchinetta
 		if (distributore.resto >= restoDovuto) // Aggiorna resto distributore
 		{
 			distributore.resto -= (restoDovuto);
-			System.out.println(String.format("Il tuo resto: %.2f€" , restoDovuto));
+			System.out.println(String.format("Il tuo resto: %.2f€", restoDovuto));
 			distributore.resto += subTotale;
 		} else // Dà tutto il resto e per il prossimo utilizzo ottiene l'attuale subtotale
 		{
-			System.out.println(String.format("Il tuo resto: %.2f€" , restoDovuto));
+			System.out.println(String.format("Il tuo resto: %.2f€", restoDovuto));
 			distributore.resto = subTotale;
 		}
 	}
@@ -164,29 +167,18 @@ public class Macchinetta
 	{
 		// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
 		// quantita)
-		Prodotto id10 = new Prodotto("Acqua calda", 10, 0.4, true, 5);
-		Prodotto id11 = new Prodotto("Caffe", 11, 0.5, true, 5);
-		Prodotto id12 = new Prodotto("Te caldo", 12, 0.7, true, 5);
-		Prodotto id13 = new Prodotto("Cioccolata", 13, 0.8, true, 5);
-		Prodotto id14 = new Prodotto("Cappuccino", 14, 0.7, true, 5);
-		Prodotto id15 = new Prodotto("Ginseng", 15, 0.8, true, 5);
-		Prodotto id20 = new Prodotto("Acqua Ferragni", 20, 5.90, false, 6);
-		Prodotto id21 = new Prodotto("Acqua Frizzante", 21, 0.90, false, 6);
-		Prodotto id22 = new Prodotto("Aranciata", 22, 1.30, false, 6);
-		Prodotto id23 = new Prodotto("Cola", 23, 1.50, false, 6);
-		Prodotto id24 = new Prodotto("Energy brick", 24, 2.50, false, 6);
 		ArrayList<Prodotto> listaProdotti = new ArrayList<Prodotto>();
-		listaProdotti.add(id10);
-		listaProdotti.add(id11);
-		listaProdotti.add(id12);
-		listaProdotti.add(id13);
-		listaProdotti.add(id14);
-		listaProdotti.add(id15);
-		listaProdotti.add(id20);
-		listaProdotti.add(id21);
-		listaProdotti.add(id22);
-		listaProdotti.add(id23);
-		listaProdotti.add(id24);
+		listaProdotti.add(new Prodotto("Acqua calda", 10, 0.4, true, 5));
+		listaProdotti.add(new Prodotto("Caffe", 11, 0.5, true, 5));
+		listaProdotti.add(new Prodotto("Te caldo", 12, 0.7, true, 5));
+		listaProdotti.add(new Prodotto("Cioccolata", 13, 0.8, true, 5));
+		listaProdotti.add(new Prodotto("Cappuccino", 14, 0.7, true, 5));
+		listaProdotti.add(new Prodotto("Ginseng", 15, 0.8, true, 5));
+		listaProdotti.add(new Prodotto("Acqua Ferragni", 20, 5.90, false, 6));
+		listaProdotti.add(new Prodotto("Acqua Frizzante", 21, 0.90, false, 6));
+		listaProdotti.add(new Prodotto("Aranciata", 22, 1.30, false, 6));
+		listaProdotti.add(new Prodotto("Cola", 23, 1.50, false, 6));
+		listaProdotti.add(new Prodotto("Energy brick", 24, 2.50, false, 6));
 		return listaProdotti;
 	}
 

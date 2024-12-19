@@ -112,7 +112,7 @@ public class Operatore
 
 	private static void cambioPrezzoMassa(Macchinetta distributore, Scanner scanner) // Cambia il prezzo di una percentuale in base al numero inserito, con segno
 	{
-		double percentuale = 0;
+		double percentuale;
 		do
 		{
 			System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
@@ -120,8 +120,8 @@ public class Operatore
 		} while (percentuale == 0);
 		for (Prodotto p : distributore.prodotti)
 		{
-			p.setPrezzo((double)Math.round(p.getPrezzo() * (1 + percentuale / 100)*10)/10);
-		}
+			p.setPrezzo((double)Math.round(p.getPrezzo() * (1 + percentuale / 100)*10)/10); //Serve ad arrotondare alla prima cifra dopo la virgola, per poi aggiungere uno 0 
+		}                                                                                   //(esempio: 0.4 con percentuale 10% sarebbe 0.44, qui torna 0.40, 2.50 diventerebbe 2.75, qui diventa 2.80)
 	}
 
 	private static Prodotto creazioneProdotto(Scanner scanner) // Input necessari per la creazione di un nuovo prodotto
@@ -129,29 +129,28 @@ public class Operatore
 		scanner.nextLine();
 		System.out.println("Inserisci nome prodotto: ");
 		String nome = scanner.nextLine();
-		int id = -1;
-		while (id < 0 || id == 9999)
+		int id;
+		do
 		{
 			System.out.println("Inserisci id prodotto: ");
 			id = Main.getInt(scanner);
-		}
-		double prezzo = -1;
-		while (prezzo < 0)
+		} while (id < 0 || id == 9999);
+		double prezzo;
+		do
 		{
 			System.out.println("Inserisci prezzo prodotto: ");
 			prezzo = Main.getDouble(scanner);
-		}
+		} while (prezzo < 0);
 		System.out.println("Definisci se il prodotto è una bevanda calda: ");
 		boolean bevandaCalda = Main.getBoolean(scanner);
-		int quantita = -1;
-		while (quantita < 0)
+		int quantita;
+		do
 		{
 			System.out.println("Inserisci quantità iniziale prodotto: ");
 			quantita = Main.getInt(scanner);
-		}
-		// Istanza dell'oggetto Prodotto da aggiungere
-		Prodotto prodottoDaAggiungere = new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
-		return prodottoDaAggiungere;
+		} while (quantita < 0);
+		// Ritorno del Prodotto da aggiungere
+		return new Prodotto(nome, id, prezzo, bevandaCalda, quantita);
 	}
 
 	// Metodo con tutte le azioni che può fare l'operatore sulla macchinetta

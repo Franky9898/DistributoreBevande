@@ -11,42 +11,30 @@ public class Moneta
 		this.valore = valore;
 	}
 
-	public static double inserisciMoneta(Moneta[] moneteValide, double subTotale, Scanner scanner) //Inserisci monete accettate dal distributore
+	public static double inserisciMoneta(Moneta[] moneteValide, double subTotale, Scanner scanner) // Inserisci monete accettate dal distributore
 	{
-		int c = 0;
-		double valoreMoneta = -1.0;
-		while (valoreMoneta < 0.1 || valoreMoneta > 2.0)
+		double valoreMoneta;
+		do
 		{
-			System.out.println("Inserisci moneta: ");
+			System.out.println("Inserisci moneta (valori accettati: 0.1, 0.2, 0.5, 1.0, 2.0): ");
 			valoreMoneta = Main.getDouble(scanner);
-		}
-		for (int i = 0; i < moneteValide.length; i++)
+		} while (valoreMoneta < 0.1 || valoreMoneta > 2.0);
+		for (Moneta moneta : moneteValide)
 		{
-			if (valoreMoneta == moneteValide[i].valore)
+			if (valoreMoneta == moneta.valore)
 			{
 				subTotale += valoreMoneta;
-				System.out.println(String.format("Subtotale: %.2f€" , subTotale));
-				break;
-			} else
-				c++;
+				System.out.printf("Subtotale: %.2f€%n", subTotale);
+				return subTotale;
+			}
 		}
-		if (c != moneteValide.length)
-			return subTotale;
-		else
-		{
-			System.out.println("Moneta non valida");
-			return 0; //Va bene return 0 perché nel main si aggiorna il valore
-		}
+		// Se nessuna moneta valida è stata trovata
+		System.out.println("Moneta non valida.");
+		return subTotale;
 	}
 
 	public static Moneta[] inizializzazioneMoneteValide()
 	{
-		Moneta dieciCent = new Moneta(0.1);
-		Moneta ventiCent = new Moneta(0.2);
-		Moneta cinquantaCent = new Moneta(0.5);
-		Moneta unoEuro = new Moneta(1.0);
-		Moneta dueEuro = new Moneta(2.0);
-		Moneta[] moneteValide = { dieciCent, ventiCent, cinquantaCent, unoEuro, dueEuro };
-		return moneteValide;
+		return new Moneta[] { new Moneta(0.1), new Moneta(0.2), new Moneta(0.5), new Moneta(1.0), new Moneta(2.0) };
 	}
 }
