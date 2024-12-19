@@ -40,7 +40,7 @@ public class Operatore
 
 	private static void aggiungereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
-		int quantita = 0;
+		int quantita;
 		do
 		{
 			System.out.println("Inserisci la quantità da aggiungere: ");
@@ -58,7 +58,7 @@ public class Operatore
 			System.out.println("Il prodotto è esaurito.");
 			return;
 		}
-		int quantita = 0;
+		int quantita;
 		do
 		{
 			System.out.println("Inserisci la quantità da rimuovere: ");
@@ -69,14 +69,14 @@ public class Operatore
 
 	private static void cambiarePrezzoProdotto(Prodotto prodotto, Scanner scanner)
 	{
-		double nuovoPrezzo = 0;
+		double nuovoPrezzo;
 		do
 		{
 			System.out.println("Inserisci nuovo prezzo: ");
 			nuovoPrezzo = Main.getDouble(scanner);
 		} while (nuovoPrezzo < 0);
-		prodotto.setPrezzo((double)Math.round(nuovoPrezzo*10)/10);
-	}
+		prodotto.setPrezzo((double) Math.round(nuovoPrezzo * 10) / 10); // Serve ad arrotondare alla prima cifra dopo la virgola, per poi aggiungere uno 0
+	} // (esempio: 0.4 con percentuale 10% sarebbe 0.44, qui torna a 0.40, 2.50 diventerebbe 2.75, qui diventa 2.80)
 
 	// Metodo che aggiunge in un array i prodotti acquistati
 
@@ -120,8 +120,8 @@ public class Operatore
 		} while (percentuale == 0);
 		for (Prodotto p : distributore.prodotti)
 		{
-			p.setPrezzo((double)Math.round(p.getPrezzo() * (1 + percentuale / 100)*10)/10); //Serve ad arrotondare alla prima cifra dopo la virgola, per poi aggiungere uno 0 
-		}                                                                                   //(esempio: 0.4 con percentuale 10% sarebbe 0.44, qui torna 0.40, 2.50 diventerebbe 2.75, qui diventa 2.80)
+			p.setPrezzo((double) Math.round(p.getPrezzo() * (1 + percentuale / 100) * 10) / 10); // Serve ad arrotondare alla prima cifra dopo la virgola, per poi aggiungere uno 0
+		} // (esempio: 0.44 qui torna 0.40, 2.75 qui diventa 2.80)
 	}
 
 	private static Prodotto creazioneProdotto(Scanner scanner) // Input necessari per la creazione di un nuovo prodotto
@@ -158,61 +158,53 @@ public class Operatore
 	public static void funzioneOperatore(Macchinetta distributore, Scanner scanner)
 	{
 		int continua = 1;
-		int sceltaOperatore = -1;
+
 		while (continua == 1)
 		{
+			System.out.println("Premi: \n1) per aggiungere un prodotto \n2) per rimuovere un prodotto \n3) per aggiungere la quantità di un prodotto"
+					+ "\n4) per rimuovere la quantità di un prodotto \n5) per cambiare il prezzo di un prodotto"
+					+ " \n6) per il totale incassato \n7) per vedere quali prodotti sono stati acquistati \n8) per visualizzare lista prodotti esauriti"
+					+ "\n9) per cambiare il prezzo a tutti i prodotti \n10) per resettare la macchinetta");
+			int sceltaOperatore = Main.getInt(scanner);
 			switch (sceltaOperatore)
 			{
 			case 1:
 				Prodotto prodottoDaAggiungere = creazioneProdotto(scanner);
 				aggiungereProdotto(distributore.prodotti, prodottoDaAggiungere);
-				sceltaOperatore = -1;
 				break;
 			case 2: // Rimozione prodotto
 				Prodotto prodottoDaRimuovere = Macchinetta.selezioneIdProdotto(distributore, scanner);
 				rimuovereProdotto(distributore.prodotti, prodottoDaRimuovere);
-				sceltaOperatore = -1;
 				break;
 			case 3: // Aggiungere quantità prodotto
 				Prodotto prodottoDaRimpolpare = Macchinetta.selezioneIdProdotto(distributore, scanner);
 				aggiungereQuantitaProdotto(prodottoDaRimpolpare, scanner);
-				sceltaOperatore = -1;
 				break;
 			case 4: // Rimozione quantita prodotto
 				Prodotto prodottoDaDecimare = Macchinetta.selezioneIdProdotto(distributore, scanner);
 				rimuovereQuantitaProdotto(prodottoDaDecimare, scanner);
-				sceltaOperatore = -1;
 				break;
 			case 5: // Cambiare prezzo prodotto
 				Prodotto prodottoDaPrezzare = Macchinetta.selezioneIdProdotto(distributore, scanner);
 				cambiarePrezzoProdotto(prodottoDaPrezzare, scanner);
-				sceltaOperatore = -1;
 				break;
 			case 6: // Visualizza totale incassato
 				System.out.println(String.format("Incasso: %.2f€", distributore.getIncasso()));
-				sceltaOperatore = -1;
 				break;
 			case 7: // Visualizza lista prodotti acquistati
 				prodottiAcquistati(distributore.prodotti);
-				sceltaOperatore = -1;
 				break;
 			case 8: // Visualizza lista prodotti esauriti
 				prodottiEsauriti(distributore.prodotti);
-				sceltaOperatore = -1;
 				break;
 			case 9: // Cambiare prezzo a tutti i prodotti
 				cambioPrezzoMassa(distributore, scanner);
-				sceltaOperatore = -1;
 				break;
 			case 10:
 				System.exit(0); // Commento per il futuro: return non basta perché il metodo è dentro il metodo chiamato nel main.
 				break;
 			default:
-				System.out.println("Premi: \n1) per aggiungere un prodotto \n2) per rimuovere un prodotto \n3) per aggiungere la quantità di un prodotto"
-						+ "\n4) per rimuovere la quantità di un prodotto \n5) per cambiare il prezzo di un prodotto"
-						+ " \n6) per il totale incassato \n7) per vedere quali prodotti sono stati acquistati \n8) per visualizzare lista prodotti esauriti"
-						+ "\n9) per cambiare il prezzo a tutti i prodotti \n10) per resettare la macchinetta");
-				sceltaOperatore = Main.getInt(scanner);
+				System.err.println("Input non valido. Riprovare.");
 				continue;
 			}
 			System.out.println("Vuoi fare altro? Premi 1 per sì.");

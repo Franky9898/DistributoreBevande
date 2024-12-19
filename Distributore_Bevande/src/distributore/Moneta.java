@@ -24,12 +24,11 @@ public class Moneta
 			if (valoreMoneta == moneta.valore)
 			{
 				subTotale += valoreMoneta;
-				System.out.printf("Subtotale: %.2f€%n", subTotale);
+				System.out.println(String.format("Subtotale: %.2f€", subTotale));
 				return subTotale;
 			}
 		}
-		// Se nessuna moneta valida è stata trovata
-		System.out.println("Moneta non valida.");
+		System.err.println("Moneta non valida."); // Se non è stata trovata una moneta valida
 		return subTotale;
 	}
 

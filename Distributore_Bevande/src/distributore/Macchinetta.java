@@ -13,8 +13,7 @@ public class Macchinetta
 	public ArrayList<Prodotto> prodotti;
 	public final Moneta[] moneteValide;
 
-	// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int
-	// quantita)
+	// Prodotto(final String nome, final int id, double prezzo, final boolean bevandaCalda, int quantita)
 	public Macchinetta(ArrayList<Prodotto> prodotti, final Moneta[] moneteValide, double resto, int zucchero, int bacchette, int bicchieri) // Costruttore macchinetta
 	{
 		if (resto < 0)
@@ -61,7 +60,7 @@ public class Macchinetta
 					return p;
 				}
 			}
-			System.out.println("Id non valido"); // id non trovato e diverso dall'operatore
+			System.err.println("Id non valido. Riprovare."); // Id non trovato e diverso dall'operatore
 		}
 	}
 
@@ -69,40 +68,40 @@ public class Macchinetta
 	{
 		if (distributore.resto >= (subTotale - (bevanda.getPrezzo() * quantitaAcquistare)))
 			return true;
-		else
-			return false;
+		return false;
 	}
 
-	public static int[] selezioneZucchero(Macchinetta distributore, int quantitaAcquistare, Scanner scanner) // Permette di selezionare la quantità dello zucchero
+	public static int[] selezioneZucchero(Macchinetta distributore, int quantitaAcquistare, Scanner scanner) // Permette di selezionare zucchero per multiple bevande
 	{
-		int zuccheroSelezionato = 0;
 		int[] listaZucchero = new int[quantitaAcquistare];
-		for (int i = 0; i < listaZucchero.length; i++)
+		int zuccheroSelezionato = 0;
+		for (int i = 0; i < quantitaAcquistare; i++)
 		{
-			int zucchero = -1;
 			while (true)
 			{
-				if (zucchero > -1 && zucchero < 6 && zucchero <= (distributore.zucchero - zuccheroSelezionato))
+				System.out.println("Selezionare quantità zucchero (0-5) per la bevanda " + (i + 1) + ". Premere 10 per annullare: ");
+				int zucchero = Main.getInt(scanner);
+				// Opzione per annullare
+				if (zucchero == 10)
 				{
-					listaZucchero[i] = zucchero;
-					zuccheroSelezionato += zucchero;
-					break;
-				} else if (zucchero > -1 && zucchero < 6 && zucchero > (distributore.zucchero - zuccheroSelezionato))
-				{
-					System.out.println("Zucchero non sufficiente, selezionare quantità minore.");
-					zucchero = -1;
-				} else
-				{
-					System.out.println("Selezionare quantità zucchero tra 0 e 5 per la bevanda: " + (i + 1) + ". Premere 10 per annullare:  ");
-					zucchero = Main.getInt(scanner);
-					if (zucchero == 10)
-					{
-						System.out.println("Operazione annullata.");
-						return null;
-					}
+					System.out.println("Operazione annullata.");
+					return null;
 				}
+				// Validazione input
+				if (zucchero > -1 && zucchero < 6) // Prima questo if aveva come AND anche la condizione sul distributore, poi un else if che
+				{ // cambiava solo la condizione sul distributore, rendendo il tutto rindondante
+					if (zucchero <= (distributore.zucchero - zuccheroSelezionato))
+					{
+						listaZucchero[i] = zucchero;
+						zuccheroSelezionato += zucchero;
+						break;
+					} else
+						System.out.println("Zucchero non sufficiente. Quantità massima disponibile: " + (distributore.zucchero - zuccheroSelezionato));
+				} else
+					System.err.println("Quantità non valida. Inserire un numero tra 0 e 5.");
 			}
 		}
+
 		return listaZucchero;
 	}
 
@@ -116,11 +115,8 @@ public class Macchinetta
 	{
 		if (distributore.bicchieri >= quantitaAcquistare)
 			return true;
-		else
-		{
-			System.out.println("Non ci sono abbastanza bicchieri");
-			return false;
-		}
+		System.out.println((quantitaAcquistare == 1) ? "Non sono disponibili bicchieri" : "Non sono disponibili bicchieri nella quantità selezionata");
+		return false;
 	}
 
 	public static void aggiornamentoBicchieri(Macchinetta distributore, int quantitaAcquistare)
@@ -134,8 +130,8 @@ public class Macchinetta
 			distributore.bacchette -= quantitaAcquistare;
 		else
 		{
-			for (int i = (quantitaAcquistare - distributore.bacchette); i > 0; i--)
-				System.out.println("Gira con il dito. Occhio che scotta");
+			System.out.println(((quantitaAcquistare - distributore.bacchette == 1) ? "Per una bevanda gira con il dito. Occhio che scotta."
+					: "Per " + (quantitaAcquistare - distributore.bacchette) + " bevande prova a girare con il dito. Occhio che scotta"));
 			distributore.bacchette = 0;
 		}
 	}
