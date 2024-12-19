@@ -1,5 +1,7 @@
 package distributore;
 
+import java.util.Scanner;
+
 public class Prodotto
 {
 	private final String nome;
@@ -73,15 +75,31 @@ public class Prodotto
 
 	// Metodo che restituisce un boolean se la bevanda è presente o meno
 
-	public static boolean bevandaEsaurita(Prodotto bevanda, int quantitaAcquistare)
+	public static int verificaDisponibilitaBevanda(Prodotto bevanda, Scanner scanner) //Verifica disponibilità prodotto in base a quantità che si vuole acquistare
 	{
-		if (bevanda.quantita >= quantitaAcquistare)
+		while (true)
 		{
-			System.out.println(String.format("Prezzo: %.2f€", bevanda.prezzo * quantitaAcquistare));
-			return false;
+			System.out.print("Seleziona quantità da acquistare (0 per annullare): "); //Scelto 0 perché qualsiasi altra quantità potrebbe essere disponibile e i negativi sono soggetti a typo
+			int quantitaAcquistare = Main.getInt(scanner);
+			if (quantitaAcquistare == 0)
+			{
+				System.out.println("Operazione annullata.");
+				return 0;
+			}
+			if (quantitaAcquistare < 0) //Input non valido ricomincia a inserimento quantità
+			{
+				System.err.println("Quantità non valida. Inserire un valore maggiore o uguale a 0.");
+				continue;
+			}
+			if (bevanda.quantita < quantitaAcquistare) 
+			{
+				System.out.println(String.format("Il prodotto non è disponibile nella quantità selezionata. Disponibili: %d. Riprovare.", bevanda.quantita));
+				continue;
+			}
+			// Quantità valida, calcola il prezzo
+			System.out.println(String.format("Prezzo totale: %.2f€", bevanda.prezzo * quantitaAcquistare));
+			return quantitaAcquistare;
 		}
-		System.out.println((quantitaAcquistare == 1) ? "Il prodotto è esaurito" : "Il prodotto non è disponibile nella quantità indicata. Riprovare.");
-		return true;
 	}
 
 	public static boolean controlloSubTotale(Prodotto bevanda, double subTotale, int quantitaAcquistare)

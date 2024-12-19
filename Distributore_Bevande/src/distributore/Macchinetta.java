@@ -119,7 +119,7 @@ public class Macchinetta
 		return false;
 	}
 
-	public static void aggiornamentoBicchieri(Macchinetta distributore, int quantitaAcquistare)
+	public static void aggiornamentoBicchieri(Macchinetta distributore, int quantitaAcquistare) 
 	{
 		distributore.bicchieri -= quantitaAcquistare;
 	}
