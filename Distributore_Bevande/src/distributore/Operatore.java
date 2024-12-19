@@ -12,6 +12,11 @@ public class Operatore
 
 	private static void aggiungereProdotto(ArrayList<Prodotto> prodotti, Prodotto prodottoDaAggiungere)
 	{
+		if (prodottoDaAggiungere == null)
+		{
+			System.err.println("Il codice operatore non vale...");
+			return;
+		}
 		for (int i = 0; i < prodotti.size(); i++)
 		{
 			if (prodottoDaAggiungere.getId() == prodotti.get(i).getId())
@@ -30,7 +35,7 @@ public class Operatore
 	{
 		if (prodottoDaRimuovere == null)
 		{
-			System.out.println("Hai provato a rimuovere il codice operatore... Bravo non è successo niente.");
+			System.err.println("Il codice operatore non vale...");
 			return;
 		}
 		prodotti.remove(prodottoDaRimuovere);
@@ -40,6 +45,11 @@ public class Operatore
 
 	private static void aggiungereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
+		if (prodotto == null)
+		{
+			System.err.println("Il codice operatore non vale...");
+			return;
+		}
 		int quantita;
 		do
 		{
@@ -53,6 +63,11 @@ public class Operatore
 
 	private static void rimuovereQuantitaProdotto(Prodotto prodotto, Scanner scanner)
 	{
+		if (prodotto == null)
+		{
+			System.err.println("Il codice operatore non vale...");
+			return;
+		}
 		if (prodotto.getQuantita() == 0)
 		{
 			System.out.println("Il prodotto è esaurito.");
@@ -69,6 +84,11 @@ public class Operatore
 
 	private static void cambiarePrezzoProdotto(Prodotto prodotto, Scanner scanner)
 	{
+		if (prodotto == null)
+		{
+			System.err.println("Il codice operatore non vale...");
+			return;
+		}
 		double nuovoPrezzo;
 		do
 		{
