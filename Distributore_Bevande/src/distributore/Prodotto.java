@@ -88,7 +88,7 @@ public class Prodotto
 			}
 			if (quantitaAcquistare < 0) //Input non valido ricomincia a inserimento quantità
 			{
-				System.err.println("Quantità non valida. Inserire un valore maggiore o uguale a 0.");
+				System.err.println("Input non valido. Inserire un valore maggiore o uguale a 0.");
 				continue;
 			}
 			if (bevanda.quantita < quantitaAcquistare) 
