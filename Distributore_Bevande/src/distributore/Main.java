@@ -82,8 +82,6 @@ public class Main
 			if (!prodottoSelezionato.getBevandaCalda()) // Bevanda Fredda
 			{
 				Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
-				String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
-				System.out.println(output);
 				Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
 				Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
 				continue;
@@ -96,8 +94,6 @@ public class Main
 				continue;
 			Macchinetta.erogazioneBacchetta(distributore, quantitaAcquistare);
 			Prodotto.erogazioneBevanda(prodottoSelezionato, quantitaAcquistare);
-			String output = (quantitaAcquistare == 1) ? "Ritirare la bevanda" : "Ritirare le bevande";
-			System.out.println(output);
 			Operatore.aggiornamentoIncasso(distributore, prodottoSelezionato, subTotale, restabbile, quantitaAcquistare);
 			Macchinetta.erogazioneResto(distributore, prodottoSelezionato, subTotale, quantitaAcquistare);
 			Macchinetta.aggiornamentoBicchieri(distributore, quantitaAcquistare);

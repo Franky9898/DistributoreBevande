@@ -23,7 +23,7 @@ public class Moneta
 		{
 			if (valoreMoneta == moneta.valore)
 			{
-				subTotale += valoreMoneta;
+				subTotale = (double)Math.round((valoreMoneta+subTotale)*10)/10;
 				System.out.println(String.format("Subtotale: %.2f€", subTotale));
 				return subTotale;
 			}
