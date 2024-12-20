@@ -137,7 +137,7 @@ public class Operatore
 		{
 			System.out.println("Inserisci la percentuale di variazione prezzo. Attenzione se vuoi diminuire il prezzo ricorda il segno -.");
 			percentuale = Main.getDouble(scanner);
-		} while (percentuale == 0);
+		} while (percentuale == 0 || percentuale < -100);
 		for (Prodotto p : distributore.prodotti)
 		{
 			p.setPrezzo((double) Math.round(p.getPrezzo() * (1 + percentuale / 100) * 10) / 10); // Serve ad arrotondare alla prima cifra dopo la virgola, per poi aggiungere uno 0
