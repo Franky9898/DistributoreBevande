@@ -15,7 +15,7 @@ public class Main
 			} catch (Exception e)
 			{
 				System.out.println("Perfavore inserisci un numero intero.");
-				scanner.next();
+				scanner.nextLine();
 			}
 		}
 	}
@@ -30,7 +30,7 @@ public class Main
 			} catch (Exception e)
 			{
 				System.out.println("Perfavore inserisci un numero.");
-				scanner.next();
+				scanner.nextLine();
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class Main
 			} catch (Exception e)
 			{
 				System.out.println("Perfavore inserisci true o false.");
-				scanner.next();
+				scanner.nextLine();
 			}
 		}
 	}
